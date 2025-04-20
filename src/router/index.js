@@ -8,6 +8,7 @@ import Edit from "../views/Edit.vue";
 import Search from "../views/Search.vue";
 import Details from "../views/Details.vue";
 import Campgrounds from "../views/Campgrounds.vue";
+import ThingsToDo from "../views/ThingsToDo.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,11 @@ const router = createRouter({
       path:'/campgrounds/:parks/:camps',
       name:"campgrounds",
       component:Campgrounds,
+    },
+    {
+      path:'/campgrounds/:parks/:thingstodo',
+      name:"thingstodo",
+      component:ThingsToDo,
     },
 
   ],

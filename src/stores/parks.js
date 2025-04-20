@@ -6,7 +6,7 @@ export const usePark = defineStore('parks',()=>{
   const parkCodes = ref([]);
   const stateCodes = ref([]);
 
-  onMounted(async () => {
+  async function fetchCodes(){
     const token = localStorage.getItem("token")
     const serverUrl= "https://excursions-api-server.azurewebsites.net/national-parks/codes?"
     const options = {
@@ -25,9 +25,9 @@ export const usePark = defineStore('parks',()=>{
       console.log(response.status);
     }
 
-  });
+  };
 
  // const parkCodes = computed(()=>parkCodes.value)
 
-  return{parkCodes,stateCodes}
+  return{parkCodes,stateCodes,fetchCodes}
 })

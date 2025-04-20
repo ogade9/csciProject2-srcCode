@@ -161,52 +161,66 @@ nthselector();
 
 
 </template>
-<style>
+<style scoped>
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #74ebd5, #ACB6E5); /* Subtle gradient background */
+  color: #333;
+  padding: 0;
+  margin: 0;
+}
 
 .editprofile{
-  display:flex;
-  flex-direction:row;
-  position: fixed;
-  top:0px;
-  left:0px;
-  right: 0px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  justify-content: space-around ;
-  background-color: azure;
-  height: 45px;
+  padding: 15px 30px;
+  background-color: #7e9eaf;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: white;
 }
 .one1{
-  color:grey;
-  top:15px;
-  position:fixed;
-  background-color:transparent;
-  border-top:none;
-  border-bottom:none;
-  border-right:none;
-  border-left:none;
-  margin-left:150px;
+  background-color: #4c8eaf;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
+  margin-top: 10px;
+  transition: background-color 0.3s;
 
 
 }
 .one1:hover{
-  color:black;
-  cursor:pointer;
+  background-color: #4574a0;
 }
 .one{
-  color:grey;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s;
 }
 .editpp{
-  height:200px;
-  padding-top:30px;
-  right:0px;
-  left:0px;
-  background-color:lightblue;
-  margin-top:90px;
+  background-color: #e0f7fa;
+  padding: 30px;
+  text-align: center;
+  margin-top: 70px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+  font-size: 40px;
+  height: 50px;
+  border-radius: 10px;
 }
 .two{
-  margin-right:120px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 10px;
 }
 
 </style>

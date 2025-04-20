@@ -12,7 +12,7 @@
   
 }
 body{
-  background-image:url("https://i.pinimg.com/474x/9d/f9/81/9df9815aec1132f82754b704cb0cf1d6.jpg");
+  /*background-image:url("https://i.pinimg.com/474x/9d/f9/81/9df9815aec1132f82754b704cb0cf1d6.jpg");*/
   background-repeat: no-repeat;
   background-position: center;
   background-attachment:fixed;
@@ -25,19 +25,18 @@ body{
   
   
 }
-@media (max-width: 500px){
-  .container{
-    width:100%;
+
+
+@media screen and (max-width: 480px) {
+
+  html, body {
+    min-width: 320px;
   }
-  body{
-    width: 100%;
-
-  }
-
-
-  
 
 }
+
+
+
 
 
 .welcomecontainer{
@@ -140,6 +139,7 @@ form{
 .formlegend1{
   background-color:transparent;
   color:gray;
+  
 
 }
 .forminput2{
@@ -155,15 +155,22 @@ form{
   color:rgba(126, 121, 121, 0.504);
   width: 100%;
 }
+.forminput2:focus {
+  
+  outline: none;
+}
 .editcontainer{
-  background-color: azure;
-
-  right:0px;
-  left:0px;
-  margin-top: 20px;
-  position: absolute;
+  background-color: white;
+  padding: 30px;
+  margin: 20px auto;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   
+}
+.trips{
+  width: 100%;
 }
 span{
   
@@ -195,69 +202,14 @@ span{
     cursor: pointer;
     color: white;
   }
-  .icons{
-    color:black;
-    left:0px;
-    right: 0px;
-    top: 0;
-    position: absolute;
-    display: flex;
-    flex-direction:row;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-    justify-content:space-between;
+  .header-container{
+    position: relative;
+    width: 100%;
+  }
   
-    background-color: azure;
-    height: 45px;
-  }
-  .icons1{
-    margin-left: 10px;
-  }
-  .icons2{
-    margin-right: 10px;
-  }
-  .welcome{
-    margin-top: 20%;
-    margin-left: 10px;
-  }
-  .welcomeprofile{
-    background-color: white;
-    height:120px;
-    width:120px;
-    justify-content: center;
-    justify-self: center;
-    border-radius: 50%;
-    text-align: center;
-    font-size: 60px;
-    padding: 20px;
-  
-  
-  
-  }
-  .line1{
-    border: 2px solid white;
-    transform: skewY(-30deg);
-    width:98px;
-    margin-top: 20px;
-  }
-  .line2{
-    border: 2px solid white;
-    transform: skewY(30deg);
-    width:100px;
-    margin-top: 0px;
-    margin-left: 100px;
-  
-  }
-  .line3{
-    border: 2px solid white;
-    transform: skewY(-30deg);
-    width:110px;
-    margin-top:-6px;
-    margin-left: 200px;
-  }
+
   .profileTrips{
-    margin-left: 10px;
+    margin-left: 20px;
   }
   .pen{
     font-size: 19px;

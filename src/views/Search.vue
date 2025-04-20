@@ -16,7 +16,8 @@ const states = ref([]);
 const campgrounds=ref([]);
 const currentStart= ref(0);
 const currentStart1= ref(0);
-
+const loading = ref(false);
+const noResults = ref('');
 
 
 
@@ -42,6 +43,7 @@ onMounted(async () => {
 })
 
 async function getParks() {
+  loading.value= true;
   const token = localStorage.getItem("token")
   const serverUrl= `https://excursions-api-server.azurewebsites.net/national-parks?parkCode=${parkCodes.value}&stateCode=${stateCodes.value}&limit=5&number=5&start=${currentStart.value}&q=${q.value}`
   const options = {
@@ -67,48 +69,19 @@ async function getParks() {
 
   else{
     console.log(response.status);
+    noResults.value.style.display="flex";
+
   }
 
 
 }
 
 
-async function getCamps() {
-  const token = localStorage.getItem("token")
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkCodes.value}&stateCode=${stateCodes.value}&limit=5&number=5&start=${currentStart1.value}&q=${q.value}`
-  const options = {
-    method: "GET",
-    headers: { Authorization: `Bearer ${token}` },
-  };
-  const response = await fetch(serverUrl,options);
-  const data = await response.json();
-  if(response.status==200){
-
-    console.log("Okayy!", data.data);
-    result1.value.style.display = "flex";
-
-
-    for(let i=0;i<5;i++){
-      campgrounds.value.push(data.data[i].name);
-      console.log(campgrounds.value);
-    }
-    currentStart1.value+=5;
-
-
-  }
-
-  else{
-    console.log(response.status);
-  }
-
-
-}
 
 
 function clearSearch(){
   for(let i=0;i<5;i++){
       fullNames.value.pop();
-      campgrounds.value.pop();
 
     }
 }
@@ -124,25 +97,29 @@ function clearSearch(){
 
 </script>
 <template>
+
   <div class="back"><RouterLink to="/homepage"><font-awesome-icon :icon="['fas', 'less-than']" /></RouterLink></div>
-<div class=search>
 
-  <form @submit.prevent="events">
-  <input type="text" class="searchText" v-model="q">
+  <div class=search>
 
-  <input type="submit" value="Search" class="submit"/>
+    <form @submit.prevent="events">
+     <input type="text" class="searchText" v-model="q" placeholder="Search national parks...">
+
+     <input type="submit" value="Search" class="submit"/>
 
 
-  </form>
+    </form>
 
 
 
   </div>
-  <div class="results" ref="result1">
-   <RouterLink v-for="(names,index) in fullNames" class="resultBox1" :key="index" :to="`/details/${parks[index]}/${states[index]}`">{{names}}
 
-    </RouterLink>
-</div>
+  <div class="results" ref="result1">
+
+   <RouterLink v-for="(names,index) in fullNames" class="resultBox1" :key="index" :to="`/details/${parks[index]}/${states[index]}`">{{names}}</RouterLink>
+  </div>
+  <div v-if="loading" class="spinner"></div>
+  <div class="noResults" ref="noResults">No results found...</div>
   <Icons/>
 
 
@@ -152,41 +129,53 @@ function clearSearch(){
 </template>
 
 <style scoped>
+body{
+  background: linear-gradient(to bottom right, #dbeafe, #fef3c7);
+
+  background-size: cover;
+  background-position: center;
+  font-family: 'Poppins', sans-serif;
+}
 .searchText{
-  right:0px;
-  left:0px;
-  top:50px;
-  height:25px;
-  position:fixed;
-  background-color:transparent;
-  border-radius: 20px;
-  backdrop-filter: blur(5px);
+  width: 80%;
+  padding: 12px 20px;
+  margin: auto;
+  display: block;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  color: #333;
+
 }
 .search{
   position:fixed;
-  margin-top:26px;
+  margin-top:18px;
   z-index: 3;
-  margin-left:280px;
+
+
 }
 .results{
   display: none;
   flex-wrap: wrap;
-  margin:0;
-  padding: 0;
-  margin-top:60px;
-  position: fixed;
+  gap: 15px;
+  margin-top: 100px;
+  padding: 10px;
+  justify-content: center;
+  z-index: 1;
 
 }
 .resultBox1{
-  background-color: aliceblue;
-  border: 2px solid white;
-  padding: 10px;
-  width: 100%;
-  max-width: 100%;
-  margin: 0px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1 1 40%;
+  max-width: 300px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  font-weight: 500;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
 
 
 
@@ -196,24 +185,47 @@ function clearSearch(){
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 .submit{
-  position: relative;
-  top:-18px;
-  height: 19px;
-  border-radius: 10px;
-  background-color: aliceblue;
+  display: block;
+  margin: 10px auto;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  height: 25px;
   cursor: pointer;
+
+}
+.submit:hover {
+  background-color: #2563eb;
 }
 .back{
 
-  margin-left: 10px;
-  margin-top: 10px;
-  font-size: 15px;
-  color: black;
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
+  color: #333;
 }
 a{
   text-decoration: none;
   color: black;
 }
-
-
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.noResults{
+  display: none;
+}
 </style>

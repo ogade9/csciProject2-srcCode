@@ -25,6 +25,8 @@ async function signin(e){
   if(response.status==200){
     vals= await response.json();
     localStorage.setItem("token", vals.token);
+    localStorage.setItem("email",vals.user.email)
+
     router.push('/homepage')
   }
   else {

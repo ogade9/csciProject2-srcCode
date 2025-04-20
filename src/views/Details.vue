@@ -8,19 +8,17 @@ const parks = usePark();
 const parkcodes = parks.parkCodes;
 const statecodes = parks.stateCodes;
 const campgrounds=ref([]);
-const currentStart1 = ref(0);
+const thingsTodo=ref([]);
 
-const result1=ref(null);
-
+//const currentStart1 = ref(0);
 const route = useRoute();
 const parkName = ref('');
 const parkDescription = ref('');
 console.log("here1")
 const parkcode1= route.params.parks;
 const statecode1 = route.params.states;
-const q= ref('')
-console.log(parkcode1)
-console.log(statecode1)
+
+
 
 onMounted( async () => {
 
@@ -39,15 +37,18 @@ onMounted( async () => {
     console.log(data)
     parkName.value= data.data[0].fullName
     parkDescription.value=data.data[0].description
-    console.log(parkDescription.value)
+
   }
   else{
     console.log(response.status);
   }
 });
-async function getCamps() {
+async function getCamps(){
   const token = localStorage.getItem("token")
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&number=5&start=${currentStart1.value}&q=${q.value}`
+  console.log('Bug')
+  console.log(parkcode1)
+  console.log(statecode1)
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&start=0&q=${parkcode1}`;
   const options = {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
@@ -55,16 +56,16 @@ async function getCamps() {
   const response = await fetch(serverUrl,options);
   const data = await response.json();
   if(response.status==200){
-
+    console.log("Full API response:", data);
     console.log("Okayy!", data.data);
-    result1.value.style.display = "flex";
+    //result1.value.style.display = "flex";
 
 
-    for(let i=0;i<5;i++){
+    for(let i=0;i<data.data.length;i++){
       campgrounds.value.push(data.data[i].name);
-      console.log(campgrounds.value);
+      console.log('Camps:',campgrounds.value);
     }
-    currentStart1.value+=5;
+   // currentStart1.value+=5;
 
 
   }
@@ -74,155 +75,158 @@ async function getCamps() {
   }
 
 
-}
+};
+
+getCamps();
+
+async function getThingsToDo(){
+  const token = localStorage.getItem("token")
+  console.log('Bug')
+  console.log(parkcode1)
+  console.log(statecode1)
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/things-to-do?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&start=0`;
+  const options = {
+    method: "GET",
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  const response = await fetch(serverUrl,options);
+  const data = await response.json();
+
+  if(response.status==200){
+    console.log("Full API response:", data);
+    console.log("Okayy!", data.data);
+    //result1.value.style.display = "flex";
 
 
-function clearSearch(){
-  for(let i=0;i<5;i++){
-
-      campgrounds.value.pop();
-
+    for(let i=0;i<data.data.length;i++){
+      thingsTodo.value.push(data.data[i].activities[0].name);
+      console.log('Things:',thingsTodo.value);
     }
-}
-const events = (()=>{
-  getCamps();
-  clearSearch();
-});
+   // currentStart1.value+=5;
+
+
+  }
+
+  else{
+    console.log(response.status);
+  }
+
+
+};
+
+getThingsToDo();
+
 
 </script>
 <template>
 
-  <div class="parkVideo">
-
-    <div class=search2>
-
-  <form @submit.prevent="events">
-    <div class="filter" ><font-awesome-icon :icon="['fas', 'bars']" /></div>
- <input type="text" class="searchText2" v-model="q" placeholder="Find Campgrounds...">
-
-  <input type="submit" value="Search" class="submit"/>
 
 
-</form>
-</div>
-<div class="results" ref="result1">
-  <RouterLink v-for="(names,index) in campgrounds" class="resultBox1"  :to="`/campgrounds/${parkcode1}/${campgrounds[index]}`" :key="index" >{{names}}</RouterLink>
-</div>
   <div class="allCamps">
-   <div></div>
-  </div>
 
-  </div>
-  <h4 class="parkName">{{parkName }}</h4>
+    <div class="parkVideo"></div>
+    <h4 class="parkName">{{parkName }}</h4>
+    <div class="parkDescription"><h3>Description</h3>{{ parkDescription }}</div>
+    <h5 class="section-title">Campgrounds</h5>
+    <div class="result">
 
-  <div class="parkDescription"><h3>Description</h3>{{ parkDescription }}</div>
-  <div class="parkGallery"></div>
+      <RouterLink v-for="(names,index) in campgrounds"  :to="`/campgrounds/${parkcode1}/${campgrounds[index]}`" class="resultBox1" :key="index" >{{names}}</RouterLink></div>
+      <div v-if="campgrounds.length === 0" class="resultBox1">
+      No campgrounds found.
+    </div>
+  <h5>Things To Do</h5>
+    <div class="result">
 
-
+    <RouterLink v-for="(names,index) in thingsTodo"  :to="`/campgrounds/${parkcode1}/${thingsTodo[index]}`" class="resultBox1" :key="index" >{{names}}</RouterLink></div>
+    <div v-if="thingsTodo.length === 0" class="resultBox1">
+      No activities here.
+    </div>
+    </div>
 <Icons/>
 </template>
 <style>
-.parkVideo{
-  height:40vh;
-  background-color: rgb(138, 214, 221);
-  top: 0px;
-  right: 0px;
-  left:0px;
-  position: absolute;
-  border: 2px solid white;
+.allCamps{
 
+  background-color: #8ad6dd;
+  min-height: 100vh;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 
 }
+
 .parkName{
-  background-color: rgb(138, 214, 221);
-  padding: 0px;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid white;
-  margin-top: 40vh;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+  color: #004f59;
 
 
 
 }
 .parkDescription{
-  background-color: rgb(138, 214, 221);
-  border: 0px solid white;
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: -21px;
-  padding: 10px;
 
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  background: #f2f9fa;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 
 }
 .parkGallery{
-  height:15vh;
   background-color: rgb(138, 214, 221);
   border: 1px solid white;
 
 }
-.searchText2{
-  right:0px;
-  left:0px;
-  width:70%;
-  justify-self:center;
-  top:50px;
-  height:25px;
-  position:fixed;
-  background-color:transparent;
-  border-radius: 20px;
-
+.section-title {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+  color: #005f69;
+  border-left: 4px solid #005f69;
+  padding-left: 10px;
 }
-.search2{
-  position:fixed;
-  margin-top:51px;
-  margin-left:180px;
-}
-.results{
-  display: none;
-  flex-wrap: wrap;
-  margin:0;
-  padding: 0;
-  margin-top:80px;
-  position: fixed;
-
-}
-.resultBox1{
-  background-color: aliceblue;
-  border: 2px solid white;
+.result{
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   padding: 10px;
   width: 100%;
-  max-width: 100%;
-  margin: 0px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  cursor: pointer;
+}
 
+.resultBox1{
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-left: 4px solid #60c2c8;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
 
 }
-.resultBox1:hover{
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+.spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3b82f6;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
 }
-.submit{
-  position: relative;
-  top:-18px;
-  height: 19px;
-  border-radius: 10px;
-  background-color: aliceblue;
-  cursor: pointer;
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
+
+
 a{
   text-decoration: none;
   color: black;
 
 }
-.filter{
-  font-size: 16px;
-  color: black;
-  margin-left:-370%;
-  margin-top: -17px;
-  cursor: pointer;
-}
+
 
 </style>
