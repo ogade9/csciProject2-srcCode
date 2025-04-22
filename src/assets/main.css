@@ -89,6 +89,7 @@ border-radius: 20px;
 .create{
   position: absolute;
   bottom: 0px;
+  
 
 
 }
@@ -262,11 +263,4 @@ span{
     transform: translateY(-3px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
-  .submit{
-    position: relative;
-    top:-18px;
-    height: 19px;
-    border-radius: 10px;
-    background-color: aliceblue;
-    cursor: pointer;
-  }
+  

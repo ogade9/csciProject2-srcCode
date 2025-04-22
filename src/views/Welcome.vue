@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 <template>
 
 <body >
-
+  <img class="logo" src="/project2 files/Your paragraph text (1).svg">
   <div class="welcomecontainer">
   <h2 class="welcometext">Welcome to MILES</h2>
 
@@ -21,6 +21,16 @@ import { RouterLink } from 'vue-router';
 </body>
 
 </template>
-<style>
+<style scoped>
+.logo{
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  align-self: center;
+  margin-top: 100px;
+}
+.welcomecontainer{
+  background-color: black;
+}
 
 </style>
