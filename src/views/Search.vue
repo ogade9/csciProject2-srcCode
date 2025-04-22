@@ -16,7 +16,7 @@ const states = ref([]);
 const campgrounds=ref([]);
 const currentStart= ref(0);
 const currentStart1= ref(0);
-const loading = ref(false);
+//const loading = ref(false);
 const noResults = ref('');
 
 
@@ -118,7 +118,7 @@ function clearSearch(){
 
    <RouterLink v-for="(names,index) in fullNames" class="resultBox1" :key="index" :to="`/details/${parks[index]}/${states[index]}`">{{names}}</RouterLink>
   </div>
-  <div v-if="loading" class="spinner"></div>
+
   <div class="noResults" ref="noResults">No results found...</div>
   <Icons/>
 
@@ -184,19 +184,17 @@ body{
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.submit{
-  display: block;
-  margin: 10px auto;
-  padding: 8px 20px;
-  border: none;
+.submit {
+  padding: 10px 20px;
+  height: 40px;
   border-radius: 20px;
   background-color: #3b82f6;
   color: white;
   font-weight: 500;
-  transition: background-color 0.3s ease;
-  height: 25px;
   cursor: pointer;
-
+  border: none;
+  transition: background-color 0.3s ease;
+  margin-left: -90px;
 }
 .submit:hover {
   background-color: #2563eb;

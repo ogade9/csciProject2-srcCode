@@ -48,7 +48,7 @@ async function getCamps(){
   console.log('Bug')
   console.log(parkcode1)
   console.log(statecode1)
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&start=0&q=${parkcode1}`;
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&start=0`;
   const options = {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },

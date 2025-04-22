@@ -9,7 +9,8 @@ import Search from "../views/Search.vue";
 import Details from "../views/Details.vue";
 import Campgrounds from "../views/Campgrounds.vue";
 import ThingsToDo from "../views/ThingsToDo.vue";
-
+import Friends from "../views/Friends.vue";
+import Trips from "../views/Trips.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -62,6 +63,16 @@ const router = createRouter({
       path:'/campgrounds/:parks/:thingstodo',
       name:"thingstodo",
       component:ThingsToDo,
+    },
+    {
+      path:'/friends',
+      name:"friends",
+      component: Friends,
+    },
+    {
+      path:'/trips',
+      name:"trips",
+      component: Trips,
     },
 
   ],

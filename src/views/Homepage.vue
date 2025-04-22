@@ -20,7 +20,7 @@ generateRandomText();
 
 });*/
 
-async function generateRandomText(){
+/*async function generateRandomText(){
   await parks1.fetchCodes();
   park = parks1.parkCodes
   console.log(park)
@@ -59,37 +59,45 @@ async function generateRandomText(){
   currentStart.value+=5;
   console.log(nationalPark1.value)
   //console.log(titles.value)
-}
+}*/
 //onMounted(()=>{generateRandomText()});
 
 </script>
 
 <template>
-  <h1>Discover your next adventure</h1>
-  <h4>Explore National Parks</h4>
+  <h1 class="homepage">Discover your next adventure
+    <h4 class="subheading">Explore National Parks</h4>
+  
+  </h1>
 
-  <div class="nationalParkBox"><img v-bind:src="images" class="nationalPark" v-for="(images,index) in nationalPark1" :key="index" >
-  <h4 :ref="title" class="nationalParkTitle" v-for="(title,index) in titles" :key="index" ></h4>
-  </div>
+
 
 
   <Icons/>
 
 </template>
 <style scoped>
-.nationalPark{
-  height:150px;
-  width:150px;
-  border: 1px solid black;
-  border-radius: 10px;
-  position: relative;
+.homepage {
+  padding: 60px 20px;
+  background: linear-gradient(to right, #e0f7fa, #ffffff);
+}
+
+
+.subheading {
+  font-size: 1.25rem;
+  color: #555;
 
 }
-.nationalParkBox{
-  margin:0;
-  padding: 0;
-  display: flex;
 
-
+.icons-wrapper {
+  margin-top: 20px;
 }
-</style>
+</style >
+
+
+
+
+
+
+
+

@@ -1,6 +1,4 @@
 <script setup>
-/* <font-awesome-icon :icon="['fas', 'bars']" />
-  <font-awesome-icon :icon="['fas', 'users']" />*/
 import { RouterLink } from 'vue-router';
 import {ref,onMounted} from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -11,22 +9,30 @@ import { faPen } from "@fortawesome/free-solid-svg-icons";
 import Icons from '@/components/icons.vue';
 //import router from '@/router';
 import { useRouter } from 'vue-router';
+import { inject } from 'vue';
 library.add(faBars, faUsers,faPen);
 
-const name = localStorage.getItem("firstName");
+const firstname = localStorage.getItem("firstName");
 const name2 = localStorage.getItem("lastName");
 const sideNav = ref(null);
 const email = localStorage.getItem("email");
 const router= useRouter();
 const isSideNavOpen = ref(false);
+const trips = ref([]);
+const userTrips = inject('userTrips');
+const tripName = ref('');
+const tripDescription = ref('');
+const tripStartDate = ref('');
+const tripEndDate = ref('');
+const usertripId = ref('');
 
 let abbr1;
 let abbr2;
  function nthselector(){
   const user = [];
   const user2=[];
-  for(let i=0;i<name.length;i++){
-    user.push(name.charAt(i));
+  for(let i=0;i<firstname.length;i++){
+    user.push(firstname.charAt(i));
      console.log("values", user);
 
 
@@ -102,6 +108,82 @@ async function deleteAccount(){
 
 
 }
+async function getTripById() {
+  const token=localStorage.getItem("token");
+  const tripIds =JSON.parse(localStorage.getItem("tripIds"))
+  let storedTripIds=tripIds
+console.log(storedTripIds[0])
+ // tripIds.value.push(JSON.parse(localStorage.getItem("tripIds")) || []);
+  //console.log(tripIds);
+  for(let i =0;i<storedTripIds.length;i++){
+    //console.log(id)
+    const serverUrl= `https://excursions-api-server.azurewebsites.net/trip/${storedTripIds[i]}`;
+    const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}` },
+      };
+    const response = await fetch(serverUrl,options);
+    const data = await response.json();
+
+        if(response.status==200){
+            console.log("got ID")
+            console.log(data)
+            trips.value.push({
+            tripName:data.trip.name,
+            tripDescription:data.trip.description,
+            tripStartDate:data.trip.startDate.replace(/T.*Z/, ""),
+            tripEndDate:data.trip.endDate.replace(/T.*Z/, ""),
+        });
+        }
+        else{
+          console.log(response.status)
+        }
+
+  }
+}
+async function deleteTripById(index) {
+  const token=localStorage.getItem("token");
+  const tripIds =JSON.parse(localStorage.getItem("tripIds"))
+  let storedTripIds=tripIds
+console.log(storedTripIds)
+ // tripIds.value.push(JSON.parse(localStorage.getItem("tripIds")) || []);
+  //console.log(tripIds);
+  let i=0;
+  for( i =0;i<storedTripIds.length;i++){
+      usertripId.value=storedTripIds[i];
+  }
+
+    const serverUrl= `https://excursions-api-server.azurewebsites.net/trip/${usertripId.value}`;
+    const options = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}` },
+      };
+    const response = await fetch(serverUrl,options);
+
+        if(response.status==200){
+            console.log("got ID")
+            console.log("deleted")
+            trips.value.splice(index, 1);
+            tripIds.splice(index, 1);
+            localStorage.setItem("tripIds", JSON.stringify(tripIds));
+
+
+        }
+        else{
+          console.log(response.status)
+        }
+
+
+}
+onMounted (async() => {
+  getTripById();
+
+
+})
+
+
 </script>
 
 <template>
@@ -114,7 +196,7 @@ async function deleteAccount(){
 
   </div>
 
-  <h1 class="profileName">{{ name }} {{ name2 }}
+  <h1 class="profileName">{{ firstname }} {{ name2 }}
 
   </h1>
   <h5 class="profileEmail">{{ email }}</h5>
@@ -145,7 +227,7 @@ async function deleteAccount(){
       <div class="icon-box"><font-awesome-icon :icon="['fas', 'users']" /></div>
   </div>
   </div>
-  <h1 class="welcome-message">Hi, {{name}}
+  <h1 class="welcome-message">Hi, {{firstname}}
 
   </h1>
   <div class="profile-abbr">
@@ -156,8 +238,22 @@ async function deleteAccount(){
         :icon="['fas', 'pen']"
 
       /></div></RouterLink>
+      <RouterLink to="/trips"><div class="createTrips">Plan A Trip</div></RouterLink>
+
   <div class="header-container">
     <div class="trips-section">
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
+      <div class="trips-line"></div>
       <div class="trips-line"></div>
       <div class="trips-line"></div>
       <div class="trips-line"></div>
@@ -165,6 +261,15 @@ async function deleteAccount(){
   </div>
 
 <h2 class="profileTrips">Your Trips</h2>
+<div class="trip-container">
+<div class="trips" v-for="(item,index) in trips" :key="index" v-bind="usertripId">
+  <font-awesome-icon :icon="['fas', 'xmark']" @click="deleteTripById" />
+  <h4 class="tripname">{{item.tripName}}</h4>
+  <p class="tripdescription">{{ item.tripDescription }}</p>
+  <span class="tripDates">{{ item.tripStartDate }}</span> -
+  <span class="tripDates">{{ item.tripEndDate }}</span>
+</div>
+</div>
   <Icons></Icons>
 </template>
 <style scoped>
@@ -364,5 +469,66 @@ async function deleteAccount(){
 .delete:hover {
   color: #81b7cd;
   cursor: pointer;
+}
+.createTrips{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #81b7cd;
+  border-radius: 10px;
+  height:50px;
+  width:200px;
+  text-align: center;
+  justify-self: center;
+  font-size: 20px;
+
+
+}
+.createTrips:hover{
+  color: #333;
+
+}
+.trips {
+  background-color: #f9f9f9;
+  border: 1px solid #e2e2e2;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  max-width: 90px;
+  transition: box-shadow 0.3s ease;
+  margin-left: 10px;
+  margin-bottom: 100px;
+  height: 200px;
+  display: block;
+
+}
+
+.trips:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tripname {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.tripdescription {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.tripDates {
+  font-size: 14px;
+  color: #999;
+}
+.trip-container {
+  display: flex;
+  position:relative;
+  gap: 1rem;
+
 }
 </style>
