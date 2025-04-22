@@ -43,7 +43,7 @@ onMounted(async () => {
 })
 
 async function getParks() {
-  loading.value= true;
+  //loading.value= true;
   const token = localStorage.getItem("token")
   const serverUrl= `https://excursions-api-server.azurewebsites.net/national-parks?parkCode=${parkCodes.value}&stateCode=${stateCodes.value}&limit=5&number=5&start=${currentStart.value}&q=${q.value}`
   const options = {

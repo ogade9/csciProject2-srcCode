@@ -66,9 +66,10 @@ generateRandomText();
 
 <template>
   <h1 class="homepage">Discover your next adventure
-    <h4 class="subheading">Explore National Parks</h4>
-  
+
+
   </h1>
+  <h4 class="subheading">Explore National Parks</h4>
 
 
 
