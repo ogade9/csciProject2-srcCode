@@ -60,6 +60,7 @@ async function getCamps(){
   if(response.status==200){
     console.log("Full API response:", data);
     console.log("Okayy!", data.data);
+    campName.value=data.data[0].name;
     campDescription.value=data.data[0].description;
     operatingHours.value=data.data[0].operatingHours[0].description;
     latLong.value=data.data[0].latitude
