@@ -120,7 +120,7 @@ function clearSearch(){
   </div>
 
   <div class="noResults" ref="noResults">No results found...</div>
-  <Icons/>
+  <Icons class="newIcon"/>
 
 
 
@@ -129,6 +129,9 @@ function clearSearch(){
 </template>
 
 <style scoped>
+.newIcon{
+  position: fixed;
+}
 body{
   background: linear-gradient(to bottom right, #dbeafe, #fef3c7);
 
@@ -145,7 +148,6 @@ body{
   border-radius: 30px;
   font-size: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  backdrop-filter: blur(10px);
   color: #333;
 
 }
@@ -186,18 +188,20 @@ body{
 }
 .submit {
   padding: 10px 20px;
-  height: 40px;
+  height: 30px;
   border-radius: 20px;
-  background-color: #3b82f6;
+  background-color: #5d8ad2;
   color: white;
   font-weight: 500;
-  cursor: pointer;
+  cursor:pointer;
   border: none;
   transition: background-color 0.3s ease;
-  margin-left: -90px;
+  margin-left: -120px;
+  margin-top: -25px;
 }
 .submit:hover {
-  background-color: #2563eb;
+  background-color: #2d3036;
+  cursor: pointer;
 }
 .back{
 

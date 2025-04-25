@@ -5,91 +5,166 @@ import { usePark } from '../stores/parks';
 
 const nationalPark1=ref([]);
 const parks1 = usePark();
-const randomParks = ref([]);
-const titles = ref([])
-let currentStart=ref(0);
-let park;
-let randoms= ref([]);
-/*onMounted(async()=>{
-await parks1.fetchCodes();
-console.log(parks1.parkCodes)
-park = parks1.parkCodes
-console.log("Park", park.codes[20]);
 
-generateRandomText();
+async function getParkName() {
 
-});*/
-
-/*async function generateRandomText(){
-  await parks1.fetchCodes();
-  park = parks1.parkCodes
-  console.log(park)
-
-  for(let i=0; i<5;i++){
-     //randoms.value = Math.floor(Math.random()*474)
-     randomParks.value.push(park.codes)
-     console.log(randomParks.value[i])
-  }
-
-  for(let i=0;i<5;i++){
-    const token = localStorage.getItem("token")
-    const code = randomParks.value[i];
-    const serverUrl = `https://excursions-api-server.azurewebsites.net/multimedia/galleries?parkcode=${code}&limit=5&number=5&start=0`
-
-    const options ={
-      method: 'GET',
-      headers: {Authorization: `Bearer ${token}`},
-    };
-    const response = await fetch(serverUrl,options)
-    const data = await response.json();
-    if(response.status==200){
-        //console.log(data.data[i].url)
-        nationalPark1.value.push(data.data[i].images[0].url)
-        //titles.value.push(data.data[i].title)
-        //console.log(titles.value)
-        //console.log('OKAY')
-        console.log(nationalPark1.value)
-
-    }
-    else{
-      console.log('Uh oh!')
-    }
-
-  }
-  currentStart.value+=5;
-  console.log(nationalPark1.value)
-  //console.log(titles.value)
-}*/
-//onMounted(()=>{generateRandomText()});
+}
 
 </script>
 
 <template>
-  <h1 class="homepage">Discover your next adventure
+  <div class="body">
+  <div class="overlay">
+  <h1 class="homepage">Discover your next adventure</h1>
+  <h3 class="header">Featured Parks</h3>
+  <div class="featuredParks">
 
 
-  </h1>
-  <h4 class="subheading">Explore National Parks</h4>
+    <div>
+    <h2 class="parkHeader">Yosemite National Park</h2>
+
+    <img src="https://www.nps.gov/common/uploads/structured_data/3C84C3C0-1DD8-B71B-0BFF90B64283C3D8.jpg" class="parkImages">
+
+    <div class="wrapper">
+       <RouterLink to="/details/yose/CA" ><h4 class="featuredParkName">View Park</h4></RouterLink></div>
+    </div>
+    <div>
+    <h2 class="parkHeader">Glacier National Park</h2>
+
+    <img src="https://www.nps.gov/common/uploads/structured_data/C20E6CD3-CDF7-B3AB-8448CDCD7FD590FF.jpg" class="parkImages">
+
+    <div class="wrapper">
+       <RouterLink to="/details/yose/CA" ><h4 class="featuredParkName">View Park</h4></RouterLink></div>
+    </div>
+    <div>
+    <h2 class="parkHeader">Kenai Fjords National Park</h2>
+
+    <img src="https://www.nps.gov/common/uploads/structured_data/3C798EAB-1DD8-B71B-0BC4BEFB197F2C90.jpg" class="parkImages">
+
+    <div class="wrapper">
+       <RouterLink to="/search" ><h4 class="featuredParkName">View Park</h4></RouterLink></div>
+    </div>
+    <div>
+    <h2 class="parkHeader">Appalachian National Scenic Trail</h2>
+
+    <img src="https://www.nps.gov/common/uploads/structured_data/3C8397D6-1DD8-B71B-0BEF4C54462A1EB3.jpg" class="parkImages">
+
+    <div class="wrapper">
+       <RouterLink to="/search" ><h4 class="featuredParkName">View Park</h4></RouterLink></div>
+    </div>
 
 
 
+    </div>
+
+    <h3 class="header">Campgrounds</h3>
+    <div class="featuredCampgrounds">
+
+      <h2 class="campHeader"></h2>
+      <img src="">
+
+      <div class="wrapper2">
+         <RouterLink to="/search" ><h4 class="featuredParkName">View Campground</h4></RouterLink></div>
+      <div>
+
+
+    </div>
+  </div>
+
+
+  </div>
+</div>
 
   <Icons/>
 
 </template>
 <style scoped>
-.homepage {
-  padding: 60px 20px;
-  background: linear-gradient(to right, #e0f7fa, #ffffff);
+.body{
+  background-image: url("/project2 files/homepage.jpg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  padding: 0px;
+  border-radius: 0px;
+  width: 100%;
+  height: 200px;
+
+}
+.header{
+  position: relative;
+  top: 50px;
+  font-size: large;
+}
+.overlay{
+  padding: 20px;
+
+
+}
+.parkHeader{
+  color: white;
+  width: 150px;
+  position: relative;
+  top:90px;
+  margin-left: 10px;
+}
+.featuredParks{
+  margin-top: 40px;
+  position: relative;
+  bottom: 60px;
+  margin-bottom: 40px;
+  width: 100%;
+  gap: 10px;
+  display: flex;
+  box-shadow: 0 8px 8px 0px rgba(18, 16, 16, 0.1);
+  height: 250px;
+
 }
 
+.featuredParkName{
+  font-size: large;
+  text-align: start;
+  margin-left: 30px;
+  position: relative;
+  bottom:-10px ;
 
+}
 .subheading {
-  font-size: 1.25rem;
+  font-size: 1.55rem;
   color: #555;
+  margin-top: -100px;
+  position: relative;
+
+
 
 }
+.wrapper{
+  background-color: white;
+  height: 45px;
+  width: 160px;
+  border-radius: 30px;
+  position: relative;
+  margin-left: 40px;
+  bottom: 90px;
+}
+.searchBox{
+  text-align: center;
+  top: 10px;
+  position: relative;
+  height: 30px;
+  border-radius: 5px;
+  width: 150px;
+  background-color: aliceblue;
 
+}
+.homepage{
+  width: 150px;
+  text-transform: capitalize;
+}
+.parkImages{
+  height: 300px;
+  width: 250px;
+  border-radius: 20px;
+
+}
 .icons-wrapper {
   margin-top: 20px;
 }

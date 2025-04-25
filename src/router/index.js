@@ -11,6 +11,9 @@ import Campgrounds from "../views/Campgrounds.vue";
 import ThingsToDo from "../views/ThingsToDo.vue";
 import Friends from "../views/Friends.vue";
 import Trips from "../views/Trips.vue";
+import Excursion from "../views/Excursion.vue";
+import EditTrip from "../views/EditTrip.vue";
+import EditExcursion from "../views/EditExcursion.vue"
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -65,6 +68,16 @@ const router = createRouter({
       component:ThingsToDo,
     },
     {
+      path:'/trips/:parks/:states',
+      name:"trips",
+      component:Trips,
+    },
+    {
+      path:'/excursion',
+      name:"excursion",
+      component:Excursion,
+    },
+    {
       path:'/friends',
       name:"friends",
       component: Friends,
@@ -73,6 +86,16 @@ const router = createRouter({
       path:'/trips',
       name:"trips",
       component: Trips,
+    },
+    {
+      path:'/editTrip/:tripName/:tripId',
+      name:"editTrip",
+      component: EditTrip,
+    },
+    {
+      path:'/editexcursion/:excursionName/:excursionId',
+      name:"editexcursion",
+      component: EditExcursion,
     },
 
   ],

@@ -9,6 +9,7 @@ const parkcodes = parks.parkCodes;
 const statecodes = parks.stateCodes;
 const campgrounds=ref([]);
 const thingsTodo=ref([]);
+const campGallery = ref([]);
 
 //const currentStart1 = ref(0);
 const route = useRoute();
@@ -17,6 +18,76 @@ const parkDescription = ref('');
 console.log("here1")
 const parkcode1= route.params.parks;
 const statecode1 = route.params.states;
+const parkImage = ref('');
+const parkStates=ref('');
+const parkGallery = ref([]);
+const thingsImages = ref([]);
+const campgroundsImages = ref('');
+
+async function generateRandomText(){
+
+
+    const token = localStorage.getItem("token")
+    const serverUrl = `https://excursions-api-server.azurewebsites.net/multimedia/galleries?parkcode=${parkcode1}&limit=21&number=21&start=0`
+
+    const options ={
+      method: 'GET',
+      headers: {Authorization: `Bearer ${token}`},
+    };
+    const response = await fetch(serverUrl,options)
+    const data = await response.json();
+    if(response.status==200){
+        //console.log(data.data[i].url)
+
+        //console.log(data)
+        parkImage.value= data.data[0].images[0].url
+
+        //titles.value.push(data.data[i].title)
+        //console.log(titles.value)
+        //console.log('OKAY')
+        //console.log(nationalPark1.value)
+
+    }
+    else{
+      console.log('Uh oh!')
+    }
+
+
+
+}
+async function generateParkGallery(){
+
+
+ const token = localStorage.getItem("token")
+ const serverUrl = `https://excursions-api-server.azurewebsites.net/multimedia/galleries?parkcode=${parkcode1}&limit=100`
+
+ const options ={
+   method: 'GET',
+   headers: {Authorization: `Bearer ${token}`},
+ };
+ const response = await fetch(serverUrl,options)
+ const data = await response.json();
+ if(response.status==200){
+     //console.log(data.data[i].url)
+
+     console.log(data)
+     for(let i=0;i<data.data.length;i++){
+       parkGallery.value.push(data.data[i].images[0].url)
+      //console.log('Gallery',parkGallery.value)
+     //titles.value.push(data.data[i].title)
+     //console.log(titles.value)
+     //console.log('OKAY')
+     //console.log(nationalPark1.value)
+    }
+ }
+ else{
+   console.log('Uh oh!')
+ }
+
+
+
+}
+//onMounted(()=>{generateRandomText()});
 
 
 
@@ -37,7 +108,7 @@ onMounted( async () => {
     console.log(data)
     parkName.value= data.data[0].fullName
     parkDescription.value=data.data[0].description
-
+    parkStates.value=data.data[0].states
   }
   else{
     console.log(response.status);
@@ -48,7 +119,7 @@ async function getCamps(){
   console.log('Bug')
   console.log(parkcode1)
   console.log(statecode1)
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&start=0`;
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&stateCode=${statecode1}&limit=100&start=0`;
   const options = {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
@@ -56,14 +127,20 @@ async function getCamps(){
   const response = await fetch(serverUrl,options);
   const data = await response.json();
   if(response.status==200){
-    console.log("Full API response:", data);
-    console.log("Okayy!", data.data);
+   // console.log("Full API response:", data);
+    //console.log("Okayy!", data.data);
     //result1.value.style.display = "flex";
-
+    console.log(data)
 
     for(let i=0;i<data.data.length;i++){
-      campgrounds.value.push(data.data[i].name);
-      console.log('Camps:',campgrounds.value);
+      campgrounds.value.push({
+        name:data.data[i].name,
+        images:data.data[i].images[0].url
+
+
+      });
+      //console.log('Camps:',campgrounds.value);
+
     }
    // currentStart1.value+=5;
 
@@ -84,7 +161,7 @@ async function getThingsToDo(){
   console.log('Bug')
   console.log(parkcode1)
   console.log(statecode1)
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/things-to-do?parkCode=${parkcode1}&stateCode=${statecode1}&limit=5&start=0`;
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/things-to-do?parkCode=${parkcode1}&stateCode=${statecode1}&limit=100&start=0`;
   const options = {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
@@ -99,7 +176,11 @@ async function getThingsToDo(){
 
 
     for(let i=0;i<data.data.length;i++){
-      thingsTodo.value.push(data.data[i].activities[0].name);
+     // thingsImages.value.push(data.data[i].images[0].url)
+      thingsTodo.value.push({
+        name:(data.data[i].activities[0].name),
+        images:(data.data[i].images[0].url)
+      });
       console.log('Things:',thingsTodo.value);
     }
    // currentStart1.value+=5;
@@ -115,118 +196,269 @@ async function getThingsToDo(){
 };
 
 getThingsToDo();
+generateRandomText();
+generateParkGallery();
 
 
 </script>
 <template>
+  <div class="background">
+  <div class="imageContainer">
+    <img :src=parkImage class="parkImage">
+    <div class="imageText">
+      <RouterLink to="/search"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" class="previous" /></div></RouterLink>
+      <font-awesome-icon :icon="['fas', 'location-dot']" class="location"/>
+     <h5 class="parkname">{{parkName }}, {{ parkStates }}
+      </h5>
+    </div>
+</div>
+  <div class="parkname2">{{ parkName }}</div>
+
+    <div class="park-Description"><h3>Description</h3>{{ parkDescription }}</div>
+    <h3 class="sectiontitle">Gallery</h3>
+    <div class="parkGallery2">
+
+      <div v-for="(item,index) in parkGallery" :key="index" class="parkGalleryContainer">
+        <img :src="item" class="parkGallery">
+      </div>
+
+      </div>
+
+      <h5 class="sectiontitle">Campgrounds</h5>
+    <div class="result2">
 
 
+      <RouterLink v-for="(names,index) in campgrounds"  :to="`/campgrounds/${parkcode1}/${names.name}`" class="resultBox2" :key="index" >
 
-  <div class="allCamps">
+        <img :src="names.images" class="campImages">{{names.name}}</RouterLink>
 
-    <div class="parkVideo"></div>
-    <h4 class="parkName">{{parkName }}</h4>
-    <div class="parkDescription"><h3>Description</h3>{{ parkDescription }}</div>
-    <h5 class="section-title">Campgrounds</h5>
-    <div class="result">
+    </div>
 
-      <RouterLink v-for="(names,index) in campgrounds"  :to="`/campgrounds/${parkcode1}/${campgrounds[index]}`" class="resultBox1" :key="index" >{{names}}</RouterLink></div>
       <div v-if="campgrounds.length === 0" class="resultBox1">
       No campgrounds found.
-    </div>
-  <h5>Things To Do</h5>
-    <div class="result">
+      </div>
 
-    <RouterLink v-for="(names,index) in thingsTodo"  :to="`/campgrounds/${parkcode1}/${thingsTodo[index]}`" class="resultBox1" :key="index" >{{names}}</RouterLink></div>
-    <div v-if="thingsTodo.length === 0" class="resultBox1">
+  <h5 class="sectiontitle">Things To Do</h5>
+    <div class="thingsResult">
+
+    <RouterLink v-for="(names,index) in thingsTodo"  :to="`/campgrounds/${parkcode1}/${thingsTodo[index]}`" class="resultBox" :key="index" >
+      <img :src="names.images" class="thingsTodoImages">
+     <div class="thingsName">{{names.name}}</div></RouterLink></div>
+    <div v-if="thingsTodo.length === 0" class="resultBox2">
       No activities here.
     </div>
-    </div>
+    <RouterLink :to= "`/trips/${parkName}/${parkState}`" ><div class="createTrips">Add Destination to Plan</div></RouterLink>
+  </div>
 <Icons/>
 </template>
 <style>
-.allCamps{
-
-  background-color: #8ad6dd;
-  min-height: 100vh;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
-
-}
-
-.parkName{
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+.createTrips{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #81b7cd;
+  border-radius: 10px;
+  height:30px;
+  width:200px;
   text-align: center;
-  color: #004f59;
+  justify-self: center;
+  font-size: 20px;
+  bottom: 10px;
+  position: relative;
+
+
+}
+.background{
+  background-image: url("");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
 
 
 
 }
-.parkDescription{
+.thingsResult{
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  padding: 10px;
+  gap: 10px;
+  box-shadow: 0 8px 8px 3px rgba(18, 16, 16, 0.1);
+}
+.parkname{
+  color:black;
+
+
+}
+.resultBox{
+  width: 90%;
+  background-color:transparent;
+  height: 50px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display:flex;
+  box-shadow: 0 8px 8px 3px rgba(18, 16, 16, 0.1);
+
+
+
+
+}
+.thingsName{
+  margin-top: 20px;
+  margin-left: 10px;
+}
+.parkImage{
+width:100%;
+height: 300px;
+top: 0px;
+border-top-left-radius: 20px;
+border-top-right-radius: 20px;
+
+}
+
+.park-Description{
 
   font-size: 1rem;
   line-height: 1.5;
   margin-bottom: 2rem;
-  background: #f2f9fa;
-  border-radius: 10px;
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  background-color: rgb(216, 212, 212);
 
 }
 .parkGallery{
-  background-color: rgb(138, 214, 221);
+  background-color: rgb(42, 47, 47);
   border: 1px solid white;
 
 }
-.section-title {
+.sectiontitle {
   font-size: 1.5rem;
   margin: 2rem 0 1rem;
-  color: #005f69;
-  border-left: 4px solid #005f69;
   padding-left: 10px;
+
+
 }
-.result{
+.result2{
+
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 10px;
+  overflow-x: scroll;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 10px;
-  width: 100%;
+  backdrop-filter: blur(10px);
+
+
+}
+.resultBox2:hover{
+  transform: scale(1.05);
+
 }
 
-.resultBox1{
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-left: 4px solid #60c2c8;
+.resultBox2{
+  background-color: white;
+  color: rgb(5, 5, 5);
+  height: 190px;
   padding: 1rem;
   margin-bottom: 0.5rem;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius:5px;
+  font-size: large;
+  top: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 25px;
+  box-shadow: 0 8px 4px rgba(18, 16, 16, 0.1);
+
 
 
 }
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3b82f6;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 0.8s linear infinite;
-  margin: 20px auto;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
-
+.parkname2{
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  height:50px;
+  border-bottom: 1px solid black;
+}
+.previous{
+  position: relative;
+  margin-top:5px;
+  font-size: large;
+}
+.campImages{
+  width:160px;
+  height: 150px;
+  box-shadow: 0 8px 4px rgba(18, 16, 16, 0.1);
+  margin-bottom: 5px;
+}
 a{
   text-decoration: none;
   color: black;
 
 }
+.imageContainer{
+  position: relative;
+}
+.imageText{
+  position: absolute;
+  bottom: 0px;
+  left: 10px;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.location{
+  position: relative;
+  bottom: -38px;
+  left: -15px;
 
+}
+.parkGallery{
+  width:50px;
+  height: 50px;
+  border-radius:10px;
+  backdrop-filter: blur(10px);
+}
+.parkGalleryContainer{
+  position: relative;
+
+
+
+}
+.back{
+  position: relative;
+  top: -150px;
+  height: 30px;
+  background-color: aqua;
+  width: 40px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+
+}
+.parkGallery2{
+  height:110px;
+  display: flex;
+  overflow-x: scroll;
+  width: 100%;
+}
+.thingsResult{
+  display: flex;
+  box-shadow: #2a2727;
+  width: 93%;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 8px 8px rgba(18, 16, 16, 0.1);
+}
+.thingsTodoImages{
+  width:50px;
+  border-radius: 5px;
+  justify-content: center;
+  margin-top: 10px;
+  box-shadow: 0 8px 8px 3px rgba(18, 16, 16, 0.1);
+}
 
 </style>

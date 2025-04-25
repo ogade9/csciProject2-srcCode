@@ -60,16 +60,18 @@ onMounted(async () => {
   };
 
   const response = await fetch(serverUrl, options);
+  const data = await response.json();
+  console.log(data)
   if(response.status==200){
-    const data = await response.json();
 
 
-    firstName.value = data.firstName;
 
-    lastName.value = data.lastName;
-    userName.value = data.userName;
-    email.value = data.email;
-    password.value= data.password;
+    firstName.value = data.user.firstName;
+
+    lastName.value = data.user.lastName;
+    userName.value = data.user.userName;
+    email.value = data.user.email;
+    password.value= data.user.password;
   }
 });
 

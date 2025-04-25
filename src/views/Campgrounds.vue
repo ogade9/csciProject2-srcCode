@@ -17,6 +17,8 @@ const campDescription = ref('');
 const operatingHours = ref('');
 const latLong = ref('');
 const contacts = ref('');
+const campImage=ref('');
+const campState=ref('');
 console.log("here1")
 const parkcode1=route.params.parks;
 const campcode1= route.params.camps;
@@ -46,11 +48,11 @@ onMounted( async () => {
     console.log(response.status);
   }
 });
-async function getCamps(){
+async function getCamp(){
   const token = localStorage.getItem("token")
   console.log('Bug')
 
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&limit=5&start=0&q=${campcode1}`;
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/campgrounds?parkCode=${parkcode1}&limit=100&start=0&q=${campcode1}`;
   const options = {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
@@ -65,6 +67,8 @@ async function getCamps(){
     operatingHours.value=data.data[0].operatingHours[0].description;
     latLong.value=data.data[0].latitude
     contacts.value=data.data[0].contacts.emailAddresses[0].emailAddress;
+    campImage.value=data.data[0].images[0].url
+    campState.value=data.data[0].parkCode
     //result1.value.style.display = "flex";
 
 
@@ -81,7 +85,7 @@ async function getCamps(){
 
 };
 
-getCamps();
+getCamp();
 
 
 
@@ -94,14 +98,22 @@ getCamps();
 
 
   <div class="allCamps">
+    <div class="imageContainer">
+      <img :src="campImage" class="campImage">
+    <div class="imageText">
+      <RouterLink to="/details"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" class="previous" /></div></RouterLink>
+      <font-awesome-icon :icon="['fas', 'location-dot']" class="location"/>
+     <h5 class="parkname">{{campName }},<div style="text-transform: capitalize;"> {{ campState }}</div>
+      </h5>
+    </div>
+</div>
 
-    <div class="campVideo"></div>
     <h4 class="campName">{{campName }}</h4>
     <div class="campDescription"><h3>Description</h3>{{ campDescription }}</div>
-    <h5 class="section-title">Operating hours</h5>{{operatingHours}}
-    <h5 class="section-title">LatLong</h5>{{ latLong }}
-    <h5 class="section-title"></h5>
-        <h5 class="section-title">Contacts</h5>{{ contacts }}
+    <h5 class="sectiontitle">Operating hours</h5>{{operatingHours}}
+    <h5 class="sectiontitle">LatLong</h5>{{ latLong }}
+    <h5 class="sectiontitle"></h5>
+    <h5 class="sectiontitle">Contacts</h5>{{ contacts }}
 
 
 
@@ -115,25 +127,51 @@ getCamps();
 <style>
 .allCamps{
 
-  background-color: #8ad6dd;
+
   min-height: 100vh;
   padding: 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 
 }
+.campDescription{
 
-.parkName{
-  font-size: 2rem;
+font-size: 1rem;
+line-height: 1.5;
+margin-bottom: 2rem;
+padding: 1rem;
+box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+backdrop-filter: blur(10px);
+background-color: rgb(216, 212, 212);
+
+}
+.sectiontitle {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+  padding-left: 10px;
+
+
+}
+.campImage{
+  width:100%;
+  height: 300px;
+  top: 0px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.campName{
+  margin-top: 10px;
   font-weight: bold;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #004f59;
+  font-size: 20px;
+  height:50px;
+  border-bottom: 1px solid black;
+
 
 
 
 }
-.parkDescription{
+.campDescription{
 
   font-size: 1rem;
   line-height: 1.5;
@@ -144,50 +182,16 @@ getCamps();
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 
 }
-.parkGallery{
+.campGallery{
   background-color: rgb(138, 214, 221);
   border: 1px solid white;
 
 }
-.section-title {
-  font-size: 1.5rem;
-  margin: 2rem 0 1rem;
-  color: #005f69;
-  border-left: 4px solid #005f69;
-  padding-left: 10px;
-}
-.result{
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 10px;
-  width: 100%;
-}
-
-.resultBox1{
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-left: 4px solid #60c2c8;
-  padding: 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 
 
-}
-.spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3b82f6;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 0.8s linear infinite;
-  margin: 20px auto;
-}
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+
+
+
 
 
 a{

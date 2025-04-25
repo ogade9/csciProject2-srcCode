@@ -1,7 +1,8 @@
+
 <script setup>
-import {ref,watch,provide} from 'vue';
+import {ref,onMounted} from 'vue';
 import {usePark} from '@/stores/parks';
-import { useRouter } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 
 const parks = usePark();
 const name=ref('');
@@ -10,31 +11,99 @@ const startDate=ref('');
 const endDate =ref('');
 const campground=ref('');
 const park=ref('');
-const limit= 10;
+
+const newname = ref("");
+const newdescription = ref("");
+const newstartDate = ref("");
+const newendDate = ref("");
+const newCampground = ref("");
+const newparkID = ref("");
+const newthingstodo = ref([]);
 const thingstodo=ref([]);
-const activities=ref(false);
+
 const parkcodes = parks.parkCodes;
 const statecodes = parks.stateCodes;
 const campgrounds=ref([]);
 const thingsTodo=ref([]);
 const campgroundsID = ref([]);
-const thingsToDoID = ref([]);
 const parkID = ref('');
-const router = useRouter();
+const route = useRoute();
+const router= useRouter();
+const tripName = route.params.tripName
+const tripId = route.params.tripId
+console.log(tripId)
 
-
-//const previousTrips =  localStorage.getItem("tripIds");
-//console.log("Previous",previousTrips)
 
 const userTrips = ref([]);
-//provide('userTrips', userTrips);
 
-/*  for(let i=0;i<previousTrips.length;i++){
-    if(previousTrips[i]!==null){
-      userTrips.value.push(i)
-    }
+onMounted(async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.log("No token found in localStorage.");
+    return;
+  }
 
-}*/
+  const serverUrl = `https://excursions-api-server.azurewebsites.net/trip/${tripId}`;
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await fetch(serverUrl, options);
+  const data = await response.json();
+  console.log(data)
+  if(response.status==200){
+    name.value=data.trip.name
+    description.value=data.trip.name
+    startDate.value=data.trip.startDate
+    endDate.value=data.trip.endDate
+
+
+
+
+  }
+});
+async function editTrip(){
+
+let newData = {
+  name: newname.value ||name.value,
+  description: newdescription.value || description.value,
+  startDate: newstartDate.value || startDate.value,
+  endDate: newendDate.value || endDate.value,
+  campground: newCampground.value || campground.value,
+  park:newparkID.value||parkID.value,
+  thingstodo:newthingstodo.value||thingstodo.value
+};
+console.log("bug here")
+const token = localStorage.getItem("token");
+const serverUrl = `https://excursions-api-server.azurewebsites.net/trip/${tripId}`
+const options ={
+  method: "PATCH",
+  headers:{
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(newData),
+};
+
+const response = await fetch(serverUrl, options);
+const data = await response.json();
+if(response.status==200){
+  //localStorage.setItem("firstName",data.firstName);
+  //localStorage.setItem("lastName",data.lastName);
+
+  console.log("edit complete");
+  router.push("/profile")
+}
+else{
+  console.log(response.status)
+}
+
+
+
+}
 
 async function getCamps(){
   const token = localStorage.getItem("token");
@@ -51,8 +120,8 @@ async function getCamps(){
   const data = await response.json();
   console.log('Bug')
   if(response.status==200){
-    console.log("Full API response:", data);
-    console.log("Okayy!", data.data);
+    //console.log("Full API response:", data);
+    //console.log("Okayy!", data.data);
     //result1.value.style.display = "flex";
 
 
@@ -76,14 +145,14 @@ async function getCamps(){
 async function getThingsToDo(){
   const token = localStorage.getItem("token")
   console.log('Bug')
-  const serverUrl= `https://excursions-api-server.azurewebsites.net/things-to-do?parkCode=${parkcodes}&stateCode=${statecodes}&limit=${limit}&start=0`;
+  const serverUrl= `https://excursions-api-server.azurewebsites.net/things-to-do?parkCode=${parkcodes}&stateCode=${statecodes}&limit=20&start=0`;
   const options = {
     method: "GET",
     headers: { Authorization: `Bearer ${token}` },
   };
   const response = await fetch(serverUrl,options);
   const data = await response.json();
-
+  console.log('Bug')
   if(response.status==200){
     console.log("Full API response:", data);
     console.log("Okayy!", data.data);
@@ -94,6 +163,7 @@ async function getThingsToDo(){
         name: data.data[i].activities[0].name,
          id: data.data[i].id
     });
+    console.log("things",thingsTodo.value)
 
 
     }
@@ -181,7 +251,7 @@ async function createTrips(e) {
     localStorage.setItem("newtripIds", JSON.stringify(updatedTrips));
 
     console.log(userTrips.value);
-    router.push('/profile');
+    route.push('/profile');
 
     }
 
@@ -204,11 +274,11 @@ async function createTrips(e) {
 </script>
 <template>
 
-  <h1>Create Trip</h1>
+  <h1>Edit Trip</h1>
 
   <div class="exit"><RouterLink to="/profile"><font-awesome-icon :icon="['fas', 'xmark']" /></RouterLink></div>
 
-  <form @submit.prevent="createTrips" >
+  <form @submit.prevent="editTrip" >
     <legend class="tripName">Trip Name</legend>
     <input type="text" placeholder="Trip Name" class="input" v-model="name" min="1" max="128">
     <legend class="tripName">Description</legend>
@@ -239,7 +309,7 @@ async function createTrips(e) {
           <input type="checkbox" v-model="thingstodo" :value="things.id" />{{ things.name }}</div>
     </div>
 
-      <input type="submit" value="+ Create Trip" class="submitTrip" >
+      <input type="submit" value="+ Update Trip" class="submitTrip" >
 
   </form>
   </template>

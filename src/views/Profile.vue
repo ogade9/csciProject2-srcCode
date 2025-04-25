@@ -6,26 +6,25 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBars, faUsers} from '@fortawesome/free-solid-svg-icons'
 import { defineProps } from 'vue';
 import { faPen } from "@fortawesome/free-solid-svg-icons";
-import Icons from '@/components/icons.vue';
-//import router from '@/router';
+import Icons from '@/components/icons.vue';//import router from '@/router';
 import { useRouter } from 'vue-router';
-import { inject } from 'vue';
+
 library.add(faBars, faUsers,faPen);
 
 const firstname = localStorage.getItem("firstName");
 const name2 = localStorage.getItem("lastName");
-const sideNav = ref(null);
+//const sideNav = ref(null);
 const email = localStorage.getItem("email");
 const router= useRouter();
 const isSideNavOpen = ref(false);
 const trips = ref([]);
-const userTrips = inject('userTrips');
-const tripName = ref('');
-const tripDescription = ref('');
-const tripStartDate = ref('');
-const tripEndDate = ref('');
-const usertripId = ref('');
-
+const excursionId= ref([]);
+const excursions = ref([]);
+const userTripId = ref([]);
+//const excursionTrips= ref([]);
+//let index = ref('');
+const values=JSON.parse(localStorage.getItem("newexcursionIds"))
+console.log(values)
 let abbr1;
 let abbr2;
  function nthselector(){
@@ -70,7 +69,6 @@ async function signout(event){
   const response = await fetch(serverUrl,options);
   if(response.status==200){
       console.log("signedout")
-      localStorage.clear();
       router.push('/signin')
 
   }
@@ -110,11 +108,10 @@ async function deleteAccount(){
 }
 async function getTripById() {
   const token=localStorage.getItem("token");
-  const tripIds =JSON.parse(localStorage.getItem("tripIds"))
+  const tripIds =JSON.parse(localStorage.getItem("newtripIds"))
   let storedTripIds=tripIds
-console.log(storedTripIds[0])
- // tripIds.value.push(JSON.parse(localStorage.getItem("tripIds")) || []);
-  //console.log(tripIds);
+console.log(storedTripIds)
+
   for(let i =0;i<storedTripIds.length;i++){
     //console.log(id)
     const serverUrl= `https://excursions-api-server.azurewebsites.net/trip/${storedTripIds[i]}`;
@@ -130,6 +127,7 @@ console.log(storedTripIds[0])
             console.log("got ID")
             console.log(data)
             trips.value.push({
+            tripId:data.trip._id,
             tripName:data.trip.name,
             tripDescription:data.trip.description,
             tripStartDate:data.trip.startDate.replace(/T.*Z/, ""),
@@ -142,32 +140,100 @@ console.log(storedTripIds[0])
 
   }
 }
+async function getExcursionById() {
+  const token=localStorage.getItem("token");
+  const excursionIds =JSON.parse(localStorage.getItem("newexcursionIds"))
+  let storedExcursionIds=excursionIds
+  console.log(storedExcursionIds)
+
+  for(let i =0;i<storedExcursionIds.length;i++){
+    //console.log(id)
+    const serverUrl= `https://excursions-api-server.azurewebsites.net/excursion/${storedExcursionIds[i]}`;
+    const options = {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}` },
+      };
+    const response = await fetch(serverUrl,options);
+    const data = await response.json();
+
+        if(response.status==200){
+            console.log("got excursionID")
+            console.log(data)
+            const tripNames = data.excursion[0].trips.map(trip => trip.name)
+            excursions.value.push({
+
+            excursionName:data.excursion[0].name,
+            excursionDescription:data.excursion[0].description,
+            excursionTrips:tripNames,
+            excursionId: data.excursion[0]._id
+        });
+
+
+          console.log(excursions.value)
+        }
+        else{
+          console.log(response.status)
+        }
+
+
+  }
+}
 async function deleteTripById(index) {
   const token=localStorage.getItem("token");
-  const tripIds =JSON.parse(localStorage.getItem("tripIds"))
-  let storedTripIds=tripIds
-console.log(storedTripIds)
+  const tripIds =JSON.parse(localStorage.getItem("newtripIds"))
+  //userTripId.value=tripIds;
+  console.log("Trip ID at index", index, ":", tripIds[index]);
+  //console.log(storedTripIds)
  // tripIds.value.push(JSON.parse(localStorage.getItem("tripIds")) || []);
   //console.log(tripIds);
-  let i=0;
-  for( i =0;i<storedTripIds.length;i++){
-      usertripId.value=storedTripIds[i];
-  }
-
-    const serverUrl= `https://excursions-api-server.azurewebsites.net/trip/${usertripId.value}`;
+  console.log("here")
+    const serverUrl= `https://excursions-api-server.azurewebsites.net/trip/${tripIds[index]}`;
     const options = {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}` },
       };
     const response = await fetch(serverUrl,options);
-
+      console.log("here")
         if(response.status==200){
             console.log("got ID")
             console.log("deleted")
             trips.value.splice(index, 1);
             tripIds.splice(index, 1);
+            localStorage.setItem("newtripIds", JSON.stringify(tripIds));
             localStorage.setItem("tripIds", JSON.stringify(tripIds));
+
+
+
+        }
+        else{
+          console.log(response.status)
+        }
+
+
+}
+async function deleteExcursionById(index) {
+  const token=localStorage.getItem("token");
+  const excursionIds =JSON.parse(localStorage.getItem("newexcursionIds"))
+
+  console.log("Trip ID at index", index, ":", excursionIds[index]);
+  console.log("here")
+    const serverUrl= `https://excursions-api-server.azurewebsites.net/excursion/${excursionIds[index]}`;
+    const options = {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}` },
+      };
+    const response = await fetch(serverUrl,options);
+      console.log("here")
+        if(response.status==200){
+            console.log("got ID")
+            console.log("deleted")
+            excursions.value.splice(index, 1);
+            excursionIds.splice(index, 1);
+            localStorage.setItem("excursionIds", JSON.stringify(excursionIds));
+            localStorage.setItem("newexcursionIds", JSON.stringify(excursionIds));
 
 
         }
@@ -179,6 +245,7 @@ console.log(storedTripIds)
 }
 onMounted (async() => {
   getTripById();
+  getExcursionById();
 
 
 })
@@ -239,6 +306,7 @@ onMounted (async() => {
 
       /></div></RouterLink>
       <RouterLink to="/trips"><div class="createTrips">Plan A Trip</div></RouterLink>
+      <RouterLink to="/excursion"><div class="createTrips">Create An Excursion</div></RouterLink>
 
   <div class="header-container">
     <div class="trips-section">
@@ -261,18 +329,50 @@ onMounted (async() => {
   </div>
 
 <h2 class="profileTrips">Your Trips</h2>
+
 <div class="trip-container">
-<div class="trips" v-for="(item,index) in trips" :key="index" v-bind="usertripId">
-  <font-awesome-icon :icon="['fas', 'xmark']" @click="deleteTripById" />
-  <h4 class="tripname">{{item.tripName}}</h4>
-  <p class="tripdescription">{{ item.tripDescription }}</p>
-  <span class="tripDates">{{ item.tripStartDate }}</span> -
-  <span class="tripDates">{{ item.tripEndDate }}</span>
+<div class="trips" v-for="(item,index) in trips" :key="item.tripId">
+  <font-awesome-icon :icon="['fas', 'xmark']" @click="deleteTripById(index)"  class="delete" />
+  <RouterLink :to="`/editTrip/${item.tripName}/${item.tripId}`">
+  <div class="tripfix">
+    <h4 class="tripname">{{item.tripName}}</h4>
+    <p class="tripdescription">{{ item.tripDescription }}</p>
+    <span class="tripDates">{{ item.tripStartDate }}</span> -
+    <span class="tripDates">{{ item.tripEndDate }}</span>
+  </div>
+  </RouterLink>
 </div>
 </div>
-  <Icons></Icons>
+
+
+
+<h2 class="profileTrips">Your Excursions</h2>
+<div class="trip-container">
+<div class="trips" v-for="(item,index) in excursions" :key="item.excursionId" >
+  <font-awesome-icon :icon="['fas', 'xmark']" @click="deleteExcursionById(index)" class="delete"/>
+  <RouterLink :to="`/editExcursion/${item.excursionName}/${item.excursionId}`">
+  <div class="tripfix">
+  <h4 class="tripname">{{item.excursionName}}</h4>
+  <p class="tripdescription">{{ item.excursionDescription }}</p>
+  <li  v-for="(items, index) in item.excursionTrips" :key="index" class="tripDates">{{ items }}</li>
+
+  </div>
+  </RouterLink>
+</div>
+
+
+</div>
+  <Icons class="newIcons"></Icons>
 </template>
 <style scoped>
+
+
+body{
+  position: relative;
+}
+.tripfix{
+  margin-top: -50px;
+}
 .account{
   margin-left: 20px;
 }
@@ -461,9 +561,11 @@ onMounted (async() => {
   cursor: pointer;
 }
 .delete{
-  font-size: 25px;
-  color: red;
-  margin-left: 5px;
+  font-size: 20px;
+  color: rgb(23, 21, 21);
+  position: relative;
+  left: 80%;
+  margin-top: -10px;
   padding: 8px 8px 8px 32px;
 }
 .delete:hover {
@@ -481,6 +583,7 @@ onMounted (async() => {
   text-align: center;
   justify-self: center;
   font-size: 20px;
+  margin-bottom: 10px;
 
 
 }
@@ -491,15 +594,15 @@ onMounted (async() => {
 .trips {
   background-color: #f9f9f9;
   border: 1px solid #e2e2e2;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 16px 20px;
-  margin: 16px 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  max-width: 90px;
-  transition: box-shadow 0.3s ease;
+  margin: 10px 0;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.05);
+  max-width: 80%;
+  /*transition: box-shadow 0.3s ease;*/
+
   margin-left: 10px;
-  margin-bottom: 100px;
-  height: 200px;
+  height: 70px;
   display: block;
 
 }
@@ -509,26 +612,31 @@ onMounted (async() => {
 }
 
 .tripname {
-  font-size: 20px;
+  font-size: 25px;
+  text-transform: capitalize;
   font-weight: bold;
-  margin-bottom: 8px;
+  margin-bottom: -10px;
   color: #333;
 }
 
 .tripdescription {
   font-size: 16px;
   color: #666;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .tripDates {
   font-size: 14px;
   color: #999;
 }
-.trip-container {
-  display: flex;
-  position:relative;
-  gap: 1rem;
-
+.trip-container{
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  padding: 16px;
 }
+
+
+
+
+
+
 </style>
