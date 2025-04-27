@@ -273,6 +273,7 @@ async function createTrips(e) {
 
 </script>
 <template>
+  <div class="body">
 
   <h1>Edit Trip</h1>
 
@@ -287,14 +288,14 @@ async function createTrips(e) {
       <legend class="tripName" >Start Date</legend>
       <input type ="datetime-local" class="dates" v-model="startDate"/>
       </div>
-      <div style="float: right;">
+      <div style="float: left;">
       <legend class="tripName">End Date</legend>
       <input type="datetime-local"  class="dates" v-model="endDate"/>
       </div>
       <div style="float: left;">
         <legend class="tripName">Search Park</legend>
         <input type="text" class="input1" v-model="park"/>
-        <button type="button" @click.prevent="events"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+        <button type="button" @click.prevent="events"><font-awesome-icon :icon="['fas', 'magnifying-glass']" class="searchPark" /></button>
 
     </div>
     <div style="float: left;">
@@ -312,22 +313,58 @@ async function createTrips(e) {
       <input type="submit" value="+ Update Trip" class="submitTrip" >
 
   </form>
+  </div>
   </template>
 <style scoped>
-.input{
-  width:100%;
+.body{
+  background-image: url("https://i.pinimg.com/736x/8f/49/ec/8f49ec216bb710291efad0443fec67b2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+  width: 100vw;
+  height:100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family:Arial, Helvetica, sans-serif
+}
+.input1{
+  width:250px;
   height: 30px;
   border-radius: 5px;
-  border: 1px solid gray;
-  gap: 10px;
+  border: 1px solid aliceblue;
+  background-color: transparent;
+  color: aliceblue;
+  backdrop-filter: blur(5px);
   margin-bottom: 5px;
+
 }
+.input{
+  width:250px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid aliceblue;
+  background-color: transparent;
+  color: aliceblue;
+  backdrop-filter: blur(5px);
+  margin-bottom: 5px;
+
+}
+.searchPark{
+  position: relative;
+  top: 47px;
+  left: 50px;
+}
+
 h1{
   justify-content: center;
   text-align: center;
 }
 .tripName{
   margin-bottom: 5px;
+  background-color: transparent;
+  color: aliceblue;
 }
 .input1{
   width:280px;
@@ -337,17 +374,23 @@ h1{
   margin-bottom: 5px;
 }
 .input2{
-  width:280px;
+  width:250px;
   height: 50px;
   border-radius: 5px;
-  border: 1px solid gray;
+  border: 1px solid aliceblue;
+  background-color: transparent;
+  color: aliceblue;
+  backdrop-filter: blur(5px);
   margin-bottom: 5px;
 }
 .dates{
   width:100%;
   height: 30px;
   border-radius: 5px;
-  border: 1px solid gray;
+  border: 1px solid aliceblue;
+  background-color: transparent;
+  color: aliceblue;
+  backdrop-filter: blur(5px);
   margin-bottom: 5px;
 }
 .submitTrip{
@@ -359,7 +402,7 @@ h1{
   text-align: center;
   justify-content:center;
   margin-left: 40px;
-  background-color: rgb(164, 194, 194);
+  background-color: rgb(103, 149, 189);
   border-radius: 10px;
   cursor: pointer;
 }

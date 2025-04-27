@@ -97,15 +97,18 @@ function clearSearch(){
 
 </script>
 <template>
-
-  <div class="back"><RouterLink to="/homepage"><font-awesome-icon :icon="['fas', 'less-than']" /></RouterLink></div>
+  <div class="body">
+  <div class="back"><RouterLink to="/homepage">
+  <font-awesome-icon :icon="['fas', 'less-than']" />
+</RouterLink></div>
 
   <div class=search>
 
-    <form @submit.prevent="events">
+    <form @submit.prevent="events" class="searchForm">
+
      <input type="text" class="searchText" v-model="q" placeholder="Search national parks...">
 
-     <input type="submit" value="Search" class="submit"/>
+
 
 
     </form>
@@ -120,7 +123,8 @@ function clearSearch(){
   </div>
 
   <div class="noResults" ref="noResults">No results found...</div>
-  <Icons class="newIcon"/>
+  </div>
+  <Icons />
 
 
 
@@ -132,46 +136,43 @@ function clearSearch(){
 .newIcon{
   position: fixed;
 }
-body{
-  background: linear-gradient(to bottom right, #dbeafe, #fef3c7);
 
-  background-size: cover;
-  background-position: center;
-  font-family: 'Poppins', sans-serif;
-}
 .searchText{
   width: 80%;
   padding: 12px 20px;
   margin: auto;
   display: block;
-  border: none;
+  border: 2px solid aliceblue;
+  color: azure;
   border-radius: 30px;
   font-size: 16px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  color: #333;
+  backdrop-filter: blur(5px);
 
-}
-.search{
-  position:fixed;
-  margin-top:18px;
-  z-index: 3;
+
 
 
 }
+
 .results{
   display: none;
   flex-wrap: wrap;
   gap: 15px;
-  margin-top: 100px;
+  margin-top: 0px;
   padding: 10px;
   justify-content: center;
+  backdrop-filter: blur(5px);
+  border: 1px solid aliceblue;
   z-index: 1;
-
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .resultBox1{
   flex: 1 1 40%;
   max-width: 300px;
-  background-color: #f9fafb;
+  background-color:transparent;
+  color: azure;
   border: 1px solid #e5e7eb;
   border-radius: 16px;
   padding: 20px;
@@ -186,18 +187,8 @@ body{
   transform: translateY(-3px);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
-.submit {
-  padding: 10px 20px;
-  height: 30px;
-  border-radius: 20px;
-  background-color: #5d8ad2;
-  color: white;
-  font-weight: 500;
-  cursor:pointer;
-  border: none;
-  transition: background-color 0.3s ease;
-  margin-left: -120px;
-  margin-top: -25px;
+.submit1 {
+
 }
 .submit:hover {
   background-color: #2d3036;
@@ -207,8 +198,10 @@ body{
 
   width: 24px;
   height: 24px;
-  margin-left: 20px;
-  color: #333;
+  margin-left: 0px;
+  color: #4579d2;
+  font-size: large;
+  margin-top: 100px;
 }
 a{
   text-decoration: none;

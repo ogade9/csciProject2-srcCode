@@ -1,6 +1,6 @@
 :root{
 
-  --ff-homepage: "Be Vietnam Pro", sans-serif;
+
 }
 
 
@@ -12,7 +12,10 @@
   
 }
 body{
-height: 100vh;  
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+
 }
 
 

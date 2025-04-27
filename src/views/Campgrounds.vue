@@ -101,7 +101,7 @@ getCamp();
     <div class="imageContainer">
       <img :src="campImage" class="campImage">
     <div class="imageText">
-      <RouterLink to="/details"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" class="previous" /></div></RouterLink>
+      <RouterLink :to="`/details/${campState}`"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" @click="$router.back"  class="previous" /></div></RouterLink>
       <font-awesome-icon :icon="['fas', 'location-dot']" class="location"/>
      <h5 class="parkname">{{campName }},<div style="text-transform: capitalize;"> {{ campState }}</div>
       </h5>
@@ -142,13 +142,16 @@ margin-bottom: 2rem;
 padding: 1rem;
 box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 backdrop-filter: blur(10px);
-background-color: rgb(216, 212, 212);
+background-color: white
 
 }
 .sectiontitle {
   font-size: 1.5rem;
   margin: 2rem 0 1rem;
   padding-left: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  background-color: white ;
 
 
 }
@@ -166,22 +169,15 @@ background-color: rgb(216, 212, 212);
   font-size: 20px;
   height:50px;
   border-bottom: 1px solid black;
-
-
-
-
-}
-.campDescription{
-
-  font-size: 1rem;
-  line-height: 1.5;
-  margin-bottom: 2rem;
-  background: #f2f9fa;
-  border-radius: 10px;
-  padding: 1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  backdrop-filter: blur(10px);
+  background-color: white
+
+
+
 
 }
+
 .campGallery{
   background-color: rgb(138, 214, 221);
   border: 1px solid white;

@@ -79,6 +79,7 @@ async function editExcursion(){
 </script>
 
 <template>
+  <div class="body">
   <div class="exit"><RouterLink to="/profile"><font-awesome-icon :icon="['fas', 'xmark']" /></RouterLink></div>
 <h1>Create An Excursion</h1>
 <form @submit.prevent="editExcursion" >
@@ -87,57 +88,83 @@ async function editExcursion(){
   <legend class="tripName">Description</legend>
   <input type="text" placeholder="Explore the glacier park for a week.." class="input2" v-model="description" required>
   <legend class="tripName">Trip Id</legend>
-  <select multiple  v-model="trip" style="width: 350px"
-  size="8">Trips
+  <select multiple  v-model="trip" class="tripbox"
+  size="5">Trips
 
     <option v-for="(item,index) in trips" :key="index"   :value="item">{{ item }}</option>
   </select>
   <input type="submit" value="+ Update Excursion" class="submitTrip" >
 </form>
+</div>
 </template>
 <style>
+.body{
+  background-image: url("https://i.pinimg.com/736x/8f/49/ec/8f49ec216bb710291efad0443fec67b2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 0;
+  width: 100vw;
+  height:100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  font-family:Arial, Helvetica, sans-serif
+}
 h1{
-text-align: center;
-margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 20px;
 }
 .exit{
-position: absolute;
-top: 20px;
-right: 20px;
-color: red;
-font-size: 20px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: red;
+  font-size: 20px;
 
 
 }
 .tripName{
-margin-bottom: 5px;
+  margin-bottom: 5px;
+  color: aliceblue;
 }
-.input1{
-width:280px;
-height: 30px;
-border-radius: 5px;
-border: 1px solid gray;
-margin-bottom: 5px;
+.input{
+  width:250px;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid aliceblue;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  color: aliceblue;
+  margin-bottom: 5px;
+}
+.tripbox{
+  width:250px;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  color: aliceblue;
 }
 .input2{
-width:280px;
-height: 50px;
-border-radius: 5px;
-border: 1px solid gray;
-margin-bottom: 5px;
+  width:230px;
+  height: 50px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: 1px solid aliceblue;
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  color: aliceblue
 }
 .submitTrip{
-margin-top: 50px;
-height:30px;
-width: 200px;
-justify-self:center;
-align-items: center;
-text-align: center;
-justify-content:center;
-margin-left: 40px;
-background-color: rgb(164, 194, 194);
-border-radius: 10px;
-cursor: pointer;
+  margin-top: 50px;
+  height:30px;
+  width: 200px;
+  justify-self:center;
+  align-items: center;
+  text-align: center;
+  justify-content:center;
+  margin-left: 40px;
+  background-color: rgb(88, 116, 188);
+  border-radius: 10px;
+  cursor: pointer;
 }
-
 </style>

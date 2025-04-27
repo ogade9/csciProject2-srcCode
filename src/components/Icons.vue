@@ -12,6 +12,8 @@ library.add(faHouse, faUser, faPlus)
 */
 </script>
 <template>
+  <div class="main-content">
+    </div>
   <div class="icon-bar">
     <RouterLink to="/homepage" class="icon-button" :class="{ active: $route.path === '/homepage' }"><font-awesome-icon :icon="['fas', 'house']" /></RouterLink>
    <RouterLink to="/search" class="plus-button" :class="{active: $route.path==='/search'}"> <font-awesome-icon :icon="['fas', 'plus']" /></RouterLink>
@@ -19,20 +21,25 @@ library.add(faHouse, faUser, faPlus)
   </div>
 </template>
 <style scoped>
-
+.main-content {
+  flex-grow: 1;
+}
 .icon-bar{
 
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: sticky;
+
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  position: fixed;
   height: 60px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #f0f9ff; /* Soft blue background */
+  background-color: #efeee1; /* Soft blue background */
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  border-radius: 30px;
+
 }
 a{
   text-decoration: none;

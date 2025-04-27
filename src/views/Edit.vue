@@ -98,8 +98,8 @@ async function editProfile(){
   const response = await fetch(serverUrl, options);
   const data = await response.json();
   if(response.status==200){
-    localStorage.setItem("firstName",data.firstName);
-    localStorage.setItem("lastName",data.lastName);
+    localStorage.setItem("firstName",data.user.firstName);
+    localStorage.setItem("lastName",data.user.lastName);
 
     console.log("edit complete");
     router.push("/Profile")
