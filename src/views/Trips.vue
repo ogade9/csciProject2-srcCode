@@ -60,7 +60,7 @@ const handleCreateTrip = async () => {
     <div style="float: left;">
         <legend class="tripName">Things to Do</legend>
         <div v-for="(things,index) in tripStore.thingsTodo" :key="things.id">
-          <input type="checkbox" v-model="tripStore.thingstodo" :value="things.id" />{{ things.name }}</div>
+          <input type="checkbox" v-model="tripStore.thingstodo" :value="things.id" class="todo" />{{ things.name }}</div>
     </div>
 
       <input type="submit" value="+ Create Trip" class="submitTrip" >
@@ -69,6 +69,9 @@ const handleCreateTrip = async () => {
   </div>
   </template>
 <style scoped>
+.todo{
+  color: aliceblue;
+}
 .input{
   width:100%;
   height: 30px;
@@ -87,6 +90,7 @@ const handleCreateTrip = async () => {
   background-position: center;
   width: 100vw;
   height:100vh;
+  position:fixed;
 
   overflow-x: hidden;
   font-family:Arial, Helvetica, sans-serif

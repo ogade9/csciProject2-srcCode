@@ -404,7 +404,7 @@ onMounted (async() => {
 
 <div class="trip-container">
 <div class="trips" v-for="(item,index) in trips" :key="item.tripId">
-  <font-awesome-icon :icon="['fas', 'xmark']" @click="deleteTripById(index)"  class="delete" />
+  <font-awesome-icon :icon="['fas', 'xmark']" @click="deleteTripById(index)"  class="delete2" />
   <RouterLink :to="`/editTrip/${item.tripName}/${item.tripId}`">
   <div class="tripfix">
     <h4 class="tripname">{{item.tripName}}</h4>
@@ -456,6 +456,9 @@ onMounted (async() => {
 
 </template>
 <style scoped>
+a{
+  color: aliceblue;
+}
 .accept{
   position: relative;
   top:-60px;
@@ -473,6 +476,13 @@ onMounted (async() => {
 }
 .decline:hover{
   color: red;
+}
+.delete2{
+    position: relative;
+    color:white;
+    top:0px;
+    left: 95%;
+
 }
 .received {
   background-color: transparent;
@@ -542,7 +552,7 @@ onMounted (async() => {
   width: 100vw;
   background-repeat: no-repeat;
   position:fixed;
-  
+
 }
 
 .tripfix{
@@ -565,15 +575,16 @@ onMounted (async() => {
 }
 .profileName{
   text-transform: capitalize;
-  margin-left: -160px;
   margin-top: 0px;
   font-size: 23px;
+  text-align: center;
 
 }
 .profileEmail{
-  margin-top: -10px;
-  margin-left: 20px;
-  color: gray;
+  margin-top: 10px;
+  margin-left: 0px;
+  color: rgb(23, 22, 22);
+  text-align: center;
 
 }
 .sidenav{
