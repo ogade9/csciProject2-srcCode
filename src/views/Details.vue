@@ -214,7 +214,7 @@ generateParkGallery();
     </div>
 </div>
   <div class="parkname2">{{ parkName }}</div>
-  <h3 class="sectiontitle"> Description</h3>
+  <h3 class="section-title"> Description</h3>
 
     <div class="park-Description">{{ parkDescription }}</div>
     <h3 class="sectiontitle">Gallery</h3>
@@ -249,12 +249,19 @@ generateParkGallery();
     <div v-if="thingsTodo.length === 0" class="resultBox2">
       No activities here.
     </div>
-    <RouterLink :to= "`/trips/${parkName}/${parkState}`" ><div class="createTrips">+ Add</div></RouterLink>
+    <RouterLink :to= "`/trips/${parkName}/${parkState}`" ><div class="createTrips">Add</div></RouterLink>
   </div>
   </div>
 <Icons/>
 </template>
 <style scoped>
+.body{
+  width:100%;
+  height:100%;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
+}
 
 .createTrips{
   display: flex;
@@ -263,13 +270,14 @@ generateParkGallery();
   background-color: #81b7cd;
   border-radius: 10px;
   height:30px;
-  width:100px;
+  width:50px;
   text-align: center;
   justify-self: end;
   margin-right: 30px;
   font-size: 20px;
-  bottom:  255%;
-  position: relative;
+  top:5%;
+  left:70%;
+  position: fixed;
 
 
 
@@ -357,6 +365,17 @@ border-top-right-radius: 20px;
 
 
 }
+.section-title {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+  padding-left: 10px;
+  background-color: transparent;
+  color:aliceblue;
+  backdrop-filter: blur(0px);
+  margin-top: 150px;
+
+
+}
 .sectiontitle {
   font-size: 1.5rem;
   margin: 2rem 0 1rem;
@@ -364,6 +383,7 @@ border-top-right-radius: 20px;
   background-color: transparent;
   color:aliceblue;
   backdrop-filter: blur(0px);
+  margin-top: 30px;
 
 
 }

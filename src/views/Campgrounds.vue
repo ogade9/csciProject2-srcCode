@@ -125,6 +125,14 @@ getCamp();
 <Icons/>
 </template>
 <style scoped>
+.body{
+  width:100%;
+  height:100%;
+  position: fixed;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
+}
 .parkname{
   color: aliceblue;
   padding: 20px;
@@ -228,7 +236,7 @@ color:aliceblue;
 }
 a{
   text-decoration: none;
-  color: black;
+  color: rgb(245, 241, 241);
 
 }
 

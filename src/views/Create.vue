@@ -51,9 +51,12 @@ const userStore = useUserStore();
   </template>
 <style scoped>
 .body{
-  height:100vh;
-  width:100vw;
+  height:100%;
+  width:100%;
   position: fixed;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
 }
 
 

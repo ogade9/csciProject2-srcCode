@@ -60,3 +60,15 @@ let vals;
   </div>
 
 </template>
+<style scoped>
+.body{
+  width:100%;
+  height:100%;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
+  padding: 0px;
+}
+
+
+</style>

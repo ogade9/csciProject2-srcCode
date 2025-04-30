@@ -322,10 +322,11 @@ async function createTrips(e) {
   background-size: cover;
   background-position: center;
   padding: 0;
-  width: 100vw;
-  height:100vh;
-  margin: 0;
-  padding: 0;
+  width: 100%;
+  height:100%;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
   overflow-x: hidden;
   font-family:Arial, Helvetica, sans-serif
 }

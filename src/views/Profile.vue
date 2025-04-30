@@ -549,9 +549,14 @@ a{
   height: 100%;
   background-size: cover;
   background-position: center;
-  width: 100vw;
+  width: 100%;
   background-repeat: no-repeat;
   position:fixed;
+  padding-left: 10px;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
+
 
 }
 
@@ -780,7 +785,7 @@ a{
 }
 .delete{
   font-size: 20px;
-  color: rgb(23, 21, 21);
+  color: rgb(240, 237, 237);
   position: relative;
   left: 70%;
   margin-top: -10px;

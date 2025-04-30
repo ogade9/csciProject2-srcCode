@@ -171,6 +171,14 @@ body {
   padding: 0;
   margin: 0;
 }
+.body{
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
+  height: 100%;
+  width:100%;
+  
+}
 
 .editprofile{
   display: flex;

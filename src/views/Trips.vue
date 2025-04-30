@@ -88,9 +88,12 @@ const handleCreateTrip = async () => {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  width: 100vw;
-  height:100vh;
+  width: 100%;
+  height:100%;
   position:fixed;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
 
   overflow-x: hidden;
   font-family:Arial, Helvetica, sans-serif

@@ -135,6 +135,9 @@ function clearSearch(){
 <style scoped>
 .body{
   position: fixed;
+  margin-left: -10px;
+  margin-top: -10px;
+  margin-bottom: -2px;
 }
 .newIcon{
   position: fixed;

@@ -58,6 +58,8 @@ async function leaveExcursion(excursionId, index) {
 
 </script>
 <template>
+  <div class="body">
+    <RouterLink to="/profile"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" /></div></RouterLink>
 <form  @submit.prevent="inviteStore.sendExcursionInvite">
     <input type="text" v-model="inviteStore.friendId" class="search1" placeholder="Search users.."/>
     <input type="submit" value="Send" class="searchValue"/>
@@ -81,15 +83,19 @@ async function leaveExcursion(excursionId, index) {
         <p  >{{ item.firstName }}  {{ item.lastName }}</p>
         <font-awesome-icon :icon="['fas', 'xmark']" @click.prevent="leaveExcursion(excursionId,index)"  class="leave" />
     </div>
-    <h2> Members</h2>
-    <div class="invitations">
+
+
+
 
     </div>
-
-
     </div>
 </template>
 <style scoped>
+.body{
+  height:100%;
+  width: 100%;
+  position: fixed;
+}
 .leave{
   position: relative;
   left:80%;
@@ -113,6 +119,12 @@ async function leaveExcursion(excursionId, index) {
 
 
 }
+.back{
+  padding: 10px;
+  color: aqua;
+  font-size: large;
+}
+
 .searchValue{
   padding: 10px 0px;
   position: relative;
@@ -143,11 +155,19 @@ h2{
   position: relative;
   font-weight: bolder;
   top: 15px;
+  color: aliceblue;
+  background-color: transparent;
+  backdrop-filter: blur(10px);
 }
 .invitations{
   height:50px;
   width: 70%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color: aliceblue;
+  background-color: transparent;
+  backdrop-filter: blur(10px);
+  border: 1px solid aliceblue;
+  border-radius: 10px;
 }
 .revoke{
   margin-left: 70%;
