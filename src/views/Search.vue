@@ -133,6 +133,9 @@ function clearSearch(){
 </template>
 
 <style scoped>
+.body{
+  position: fixed;
+}
 .newIcon{
   position: fixed;
 }

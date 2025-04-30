@@ -38,9 +38,9 @@ flex-direction: column;
   padding: 10px;
   color: white;
   bottom: 0px;
-  position:absolute;
   left: 0px;
   right: 0px;
+  position: fixed;
 }
 .btns{
 justify-self: center;
@@ -52,6 +52,11 @@ width: 350px;
 border-radius: 20px;
 
 
+}
+.signinheader{
+  text-align: start;
+  color: aliceblue;
+  
 }
 .btns:hover{
   background-color: black;
@@ -80,8 +85,10 @@ border-radius: 20px;
   
 }
 .create{
-  position: absolute;
+  position: fixed;
   bottom: 0px;
+
+  
   
 
 

@@ -4,8 +4,9 @@ import { RouterLink } from 'vue-router';
 
 <template>
 
-<body >
-  <img class="logo" src="/project2 files/Your paragraph text (1).svg">
+
+  <div class="body">
+  <img class="logo" src="/public/Your paragraph text (3).svg">
   <div class="welcomecontainer">
   <h2 class="welcometext">Welcome to MILES</h2>
 
@@ -17,8 +18,8 @@ import { RouterLink } from 'vue-router';
 
   <div class="btns"><RouterLink class="links" to="/signin">I already have an account</RouterLink></div>
 </div>
+</div>
 
-</body>
 
 </template>
 <style scoped>
@@ -27,10 +28,16 @@ import { RouterLink } from 'vue-router';
   align-items: center;
   width: 100%;
   align-self: center;
-  margin-top: 100px;
+  position: fixed;
+  color: aliceblue;
+
 }
 .welcomecontainer{
   background-color: black;
 }
-
+.body{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
 </style>

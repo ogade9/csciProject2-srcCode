@@ -97,9 +97,9 @@ getCamp();
 
 
 
-  <div class="allCamps">
+  <div class="body">
     <div class="imageContainer">
-      <img :src="campImage" class="campImage">
+
     <div class="imageText">
       <RouterLink :to="`/details/${campState}`"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" @click="$router.back"  class="previous" /></div></RouterLink>
       <font-awesome-icon :icon="['fas', 'location-dot']" class="location"/>
@@ -109,9 +109,9 @@ getCamp();
 </div>
 
     <h4 class="campName">{{campName }}</h4>
-    <div class="campDescription"><h3>Description</h3>{{ campDescription }}</div>
-    <h5 class="sectiontitle">Operating hours</h5>{{operatingHours}}
-    <h5 class="sectiontitle">LatLong</h5>{{ latLong }}
+    <div class="campDescription"><h3>Description</h3><p class="operatinghrs">{{ campDescription }}</p></div>
+    <h5 class="sectiontitle">Operating hours</h5 ><p class="operatinghrs">{{operatingHours}}</p>
+    <h5 class="sectiontitle">LatLong</h5><p class="operatinghrs">{{ latLong }}</p>
     <h5 class="sectiontitle"></h5>
     <h5 class="sectiontitle">Contacts</h5>{{ contacts }}
 
@@ -124,7 +124,11 @@ getCamp();
   </div>
 <Icons/>
 </template>
-<style>
+<style scoped>
+.parkname{
+  color: aliceblue;
+  padding: 20px;
+}
 .allCamps{
 
 
@@ -142,7 +146,8 @@ margin-bottom: 2rem;
 padding: 1rem;
 box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 backdrop-filter: blur(10px);
-background-color: white
+background-color:transparent;
+color:aliceblue;
 
 }
 .sectiontitle {
@@ -150,10 +155,17 @@ background-color: white
   margin: 2rem 0 1rem;
   padding-left: 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  backdrop-filter: blur(0px);
+  background-color: transparent ;
+  color: aliceblue;
+
+
+}
+.operatinghrs{
+  color: aliceblue;
+  margin-left: 10px;
+  padding: 20px;
   backdrop-filter: blur(10px);
-  background-color: white ;
-
-
 }
 .campImage{
   width:100%;
@@ -170,12 +182,29 @@ background-color: white
   height:50px;
   border-bottom: 1px solid black;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  backdrop-filter: blur(10px);
-  background-color: white
+  background-color: transparent;
+  color: aliceblue;
+  text-align: center;
+  font-size: 50px;
 
 
 
 
+}
+.back{
+  position: relative;
+  top:15px;
+  height: 20px;
+  background-color: aqua;
+  width: 40px;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px;
+
+}
+.back:hover{
+  color: rgb(101, 142, 142);
 }
 
 .campGallery{
@@ -189,7 +218,14 @@ background-color: white
 
 
 
+.location{
+  top:56px;
+  position: relative;
+  left:5px;
+  color: aliceblue;
 
+
+}
 a{
   text-decoration: none;
   color: black;

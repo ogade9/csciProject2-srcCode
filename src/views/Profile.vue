@@ -541,6 +541,8 @@ onMounted (async() => {
   background-position: center;
   width: 100vw;
   background-repeat: no-repeat;
+  position:fixed;
+  
 }
 
 .tripfix{

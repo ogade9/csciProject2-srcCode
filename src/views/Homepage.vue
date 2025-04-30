@@ -115,6 +115,10 @@ async function getParkName() {
   box-shadow:rgba(31, 38, 100, 0.1);
   border-radius: 20px;
 }
+.explore:hover{
+  color: cadetblue;
+  backdrop-filter: blur(19px);
+}
 .about{
   position: relative;
   text-align: center;

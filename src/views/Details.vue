@@ -202,9 +202,10 @@ generateParkGallery();
 
 </script>
 <template>
+  <div class="body">
   <div class="background">
   <div class="imageContainer">
-    <img :src=parkImage class="parkImage">
+
     <div class="imageText">
       <RouterLink to="/search"><div class="back"><font-awesome-icon :icon="['fas', 'arrow-left']" class="previous" /></div></RouterLink>
       <font-awesome-icon :icon="['fas', 'location-dot']" class="location"/>
@@ -213,8 +214,9 @@ generateParkGallery();
     </div>
 </div>
   <div class="parkname2">{{ parkName }}</div>
+  <h3 class="sectiontitle"> Description</h3>
 
-    <div class="park-Description"><h3>Description</h3>{{ parkDescription }}</div>
+    <div class="park-Description">{{ parkDescription }}</div>
     <h3 class="sectiontitle">Gallery</h3>
     <div class="parkGallery2">
 
@@ -247,11 +249,13 @@ generateParkGallery();
     <div v-if="thingsTodo.length === 0" class="resultBox2">
       No activities here.
     </div>
-    <RouterLink :to= "`/trips/${parkName}/${parkState}`" ><div class="createTrips">Add Destination to Plan</div></RouterLink>
+    <RouterLink :to= "`/trips/${parkName}/${parkState}`" ><div class="createTrips">+ Add</div></RouterLink>
+  </div>
   </div>
 <Icons/>
 </template>
-<style>
+<style scoped>
+
 .createTrips{
   display: flex;
   justify-content: center;
@@ -259,12 +263,14 @@ generateParkGallery();
   background-color: #81b7cd;
   border-radius: 10px;
   height:30px;
-  width:200px;
+  width:100px;
   text-align: center;
-  justify-self: center;
+  justify-self: end;
+  margin-right: 30px;
   font-size: 20px;
-  bottom: 10px;
+  bottom:  255%;
   position: relative;
+
 
 
 }
@@ -274,6 +280,8 @@ generateParkGallery();
   background-position: center;
   background-size: cover;
   height: 100vh;
+  margin-bottom: 100px;
+  position: relative;
 
 
 
@@ -290,7 +298,16 @@ generateParkGallery();
   box-shadow: 0 8px 8px 3px rgba(18, 16, 16, 0.1);
 }
 .parkname{
-  color:black;
+  color:aliceblue;
+  margin-left: 30px;
+
+
+}
+.parkname2{
+  color:aliceblue;
+  margin-left: 10px;
+  font-size: 50px;
+  text-align: center;
 
 
 }
@@ -302,7 +319,8 @@ generateParkGallery();
   margin-bottom: 10px;
   display:flex;
   box-shadow: 0 8px 8px 3px rgba(18, 16, 16, 0.1);
-
+  border: 1px solid aliceblue;
+  color:aliceblue
 
 
 
@@ -326,20 +344,26 @@ border-top-right-radius: 20px;
   line-height: 1.5;
   margin-bottom: 2rem;
   padding: 1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 8px rgba(0,0,0,0.1);
   backdrop-filter: blur(10px);
-  background-color: rgb(216, 212, 212);
+  background-color:transparent;
+  color: aliceblue;
+
 
 }
 .parkGallery{
   background-color: rgb(42, 47, 47);
   border: 1px solid white;
 
+
 }
 .sectiontitle {
   font-size: 1.5rem;
   margin: 2rem 0 1rem;
   padding-left: 10px;
+  background-color: transparent;
+  color:aliceblue;
+  backdrop-filter: blur(0px);
 
 
 }
@@ -351,7 +375,8 @@ border-top-right-radius: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 10px;
   backdrop-filter: blur(10px);
-
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
 }
 .resultBox2:hover{
@@ -360,12 +385,14 @@ border-top-right-radius: 20px;
 }
 
 .resultBox2{
-  background-color: white;
-  color: rgb(5, 5, 5);
+  background-color: rgba(5, 5, 5, 0.5);
+  backdrop-filter: blur(20px);
+  color: aliceblue;
+
   height: 190px;
   padding: 1rem;
   margin-bottom: 0.5rem;
-  border-radius:5px;
+  border-radius:20px;
   font-size: large;
   top: 0px;
   margin-left: auto;
@@ -375,14 +402,19 @@ border-top-right-radius: 20px;
 
 
 
+
+}
+.result2::-webkit-scrollbar {
+    display: none;
 }
 
 .parkname2{
   margin-top: 10px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 50px;
   height:50px;
   border-bottom: 1px solid black;
+  margin-bottom: 20px;;
 }
 .previous{
   position: relative;
@@ -394,7 +426,9 @@ border-top-right-radius: 20px;
   height: 150px;
   box-shadow: 0 8px 4px rgba(18, 16, 16, 0.1);
   margin-bottom: 5px;
+
 }
+
 a{
   text-decoration: none;
   color: black;
@@ -404,34 +438,30 @@ a{
   position: relative;
 }
 .imageText{
-  position: absolute;
-  bottom: 0px;
-  left: 10px;
-  color: white;
-  padding-left: 20px;
-  padding-right: 20px;
+  color:aliceblue;
 }
-.location{
-  position: relative;
-  bottom: -38px;
-  left: -15px;
 
-}
 .parkGallery{
-  width:50px;
-  height: 50px;
+  width:80px;
+  height: 80px;
   border-radius:10px;
   backdrop-filter: blur(10px);
 }
+
 .parkGalleryContainer{
   position: relative;
 
 
 
 }
+.location{
+  top:40px;
+  position: relative;
+  left:10px;
+}
 .back{
   position: relative;
-  top: -150px;
+  top:10px;
   height: 30px;
   background-color: aqua;
   width: 40px;
@@ -445,13 +475,23 @@ a{
   display: flex;
   overflow-x: scroll;
   width: 100%;
+  gap: 3px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.parkGallery2::-webkit-scrollbar {
+    display: none;
+}
+
+
 .thingsResult{
   display: flex;
   box-shadow: #2a2727;
   width: 93%;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 8px 8px rgba(18, 16, 16, 0.1);
+  gap:10px;
+  border: 1px solid aliceblue;
 }
 .thingsTodoImages{
   width:50px;

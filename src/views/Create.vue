@@ -10,7 +10,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-
+<div class="body">
   <div class="create">
     <h1 class="signinheader">HELLO</h1>
     <div class="formcontainer">
@@ -45,9 +45,17 @@ const userStore = useUserStore();
 
     </div>
   </div>
+  </div>
+
 
   </template>
-<style>
+<style scoped>
+.body{
+  height:100vh;
+  width:100vw;
+  position: fixed;
+}
+
 
 </style>
 

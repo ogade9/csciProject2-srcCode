@@ -109,7 +109,8 @@ async function editExcursion(){
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  font-family:Arial, Helvetica, sans-serif
+  font-family:Arial, Helvetica, sans-serif;
+  position:fixed;
 }
 h1{
   text-align: center;

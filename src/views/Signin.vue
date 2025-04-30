@@ -39,6 +39,7 @@ let vals;
 
 </script>
 <template>
+  <div class="body">
    <div class="create">
     <h1 class="signinheader">WELCOME.</h1>
     <div class="formcontainer">
@@ -55,6 +56,7 @@ let vals;
         <span style="float:left;">Don't have an account? <RouterLink class="signinlink" to="/create" style="float:right">Create Account</RouterLink></span>
       </form>
     </div>
+  </div>
   </div>
 
 </template>
