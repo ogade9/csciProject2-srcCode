@@ -15,8 +15,8 @@ const id = localStorage.getItem("excursionId")
 
 console.log(id)
 console.log(excursionId)
-const newId = invitations.senderId
-
+//const newId = invitations[0].inviteId
+//console.log("invites...", invitations);
 
 const check1 = ref(false);
 console.log(currentUser)

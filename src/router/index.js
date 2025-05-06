@@ -156,7 +156,7 @@ const router = createRouter({
 });
 router.beforeEach((to,from,next)=>{
   if(to.meta.authRequired && !authenticate()) {
-    next({name:'home'})
+    next({name:'homepage'})
 
   }else{
     next();

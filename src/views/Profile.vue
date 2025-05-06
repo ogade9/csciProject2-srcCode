@@ -26,22 +26,17 @@ const friendId = ref('');
 console.log(firstName)
 const invitations = JSON.parse(localStorage.getItem("excursionInvites")||'[]');
 console.log(firstName)
-//console.log(invitations[0].inviteId)
-//console.log(invitations[1].inviteId)
 
 
 
-//console.log(localStorage.getItem("participants"))
-//console.log(invitations[0].userId)
+//id to send for invite:680c636cf211241821ee8b2b
+
 console.log(firstName)
 console.log(currentUser)
 const check1 = ref(false);
 const abbr1 = ref('');
 const abbr2 = ref('');
-//const excursionInvite = JSON.parse(localStorage.getItem("excursionInvite"))
-//console.log(excursionInvite)
-//const values=JSON.parse(localStorage.getItem("newexcursionIds"))
-//console.log(values)
+
 console.log(firstName)
  function nthSelector(){
   abbr1.value = firstName.charAt(0) || '';
@@ -174,6 +169,7 @@ async function getExcursionByUserId() {
               });
 
         }
+        console.log("excursions", excursions.value)
         }
 
         else{
@@ -311,8 +307,9 @@ function check(){
 check()
 onMounted (async() => {
   //getTripById();
-  getTripByUserId();
   getExcursionByUserId();
+  getTripByUserId();
+
 
 
 })
