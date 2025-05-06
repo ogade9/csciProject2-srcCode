@@ -54,7 +54,7 @@ const handleCreateTrip = async () => {
     <div style="float: left;">
         <legend class="tripName">Choose Campground</legend>
         <select class="input1" v-model="tripStore.campground" >
-          <option v-for="(item,index) in tripStore.campgrounds" :key="index" :value="tripStore.campgroundsID[index]">{{ item }}</option>
+          <option v-for="(item,index) in tripStore.campgrounds" :key="index" :value="tripStore.campgroundsID[index]" class="option">{{ item }}</option>
       </select>
     </div>
     <div style="float: left;">
@@ -69,6 +69,10 @@ const handleCreateTrip = async () => {
   </div>
   </template>
 <style scoped>
+.option{
+  color:aliceblue;
+  background-color: black;
+}
 .todo{
   color: aliceblue;
 }
@@ -99,9 +103,10 @@ const handleCreateTrip = async () => {
   font-family:Arial, Helvetica, sans-serif
 }
 .searchPark{
-  position: relative;
-  top: 65px;
-  left: 50px;
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  color:aliceblue;
 }
 h1{
   justify-content: center;

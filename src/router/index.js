@@ -71,14 +71,7 @@ const router = createRouter({
         authRequired:true},
 
     },
-    {
-      path:'/invites/:excursionId',
-      name:"invites",
-      component: Invites,
-      meta:{
-        authRequired:true},
 
-    },
     {
       path:'/details/:parks/:states',
       name:"details",
@@ -146,6 +139,14 @@ const router = createRouter({
       path:'/editexcursion/:excursionName/:excursionId',
       name:"editexcursion",
       component: EditExcursion,
+      meta:{
+        authRequired:true},
+
+    },
+    {
+      path:'/invites/:excursionId',
+      name:"invites",
+      component: Invites,
       meta:{
         authRequired:true},
 
